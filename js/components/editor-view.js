@@ -26,14 +26,14 @@ export class EditorView {
         this.container.innerHTML = `
             <div class="editor-view">
                 <div class="header">
-                    <button id="back-btn" class="btn-secondary">← 뒤로</button>
-                    <h1>운동 기록</h1>
-                    <button id="save-btn" class="btn btn-success">저장 ✓</button>
+                    <button id="back-btn" class="btn-secondary">← Back</button>
+                    <h1>Workout</h1>
+                    <button id="save-btn" class="btn btn-success">Save ✓</button>
                 </div>
                 <div class="editor-content">
                     <div class="date-picker">
                         <label style="color: var(--text-secondary); font-size: 0.9rem; display: block; margin-bottom: 0.5rem;">
-                            날짜
+                            Date
                         </label>
                         <input type="date" id="workout-date" value="${this.workout.date}">
                     </div>
@@ -41,7 +41,7 @@ export class EditorView {
                         ${this.renderExerciseCards()}
                     </div>
                     <button id="add-exercise-btn" class="btn btn-primary btn-large">
-                        ➕ 운동 추가
+                        ➕ Add Exercise
                     </button>
                 </div>
             </div>
@@ -52,7 +52,7 @@ export class EditorView {
 
     renderExerciseCards() {
         if (this.exercises.length === 0) {
-            return '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">운동을 추가하세요</p>';
+            return '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">Add exercises</p>';
         }
 
         return this.exercises.map((exercise, index) => {
@@ -72,21 +72,21 @@ export class EditorView {
                     </div>
                     <div class="exercise-controls">
                         <div class="control-row">
-                            <div class="control-label">무게</div>
+                            <div class="control-label">Weight</div>
                             <button class="control-btn" data-action="dec-weight" data-index="${index}">−</button>
                             <div class="control-value">${exercise.weight}kg</div>
                             <button class="control-btn" data-action="inc-weight" data-index="${index}">+</button>
                         </div>
                         <div class="control-row">
-                            <div class="control-label">횟수</div>
+                            <div class="control-label">Reps</div>
                             <button class="control-btn" data-action="dec-reps" data-index="${index}">−</button>
-                            <div class="control-value">${exercise.reps}회</div>
+                            <div class="control-value">${exercise.reps} reps</div>
                             <button class="control-btn" data-action="inc-reps" data-index="${index}">+</button>
                         </div>
                         <div class="control-row">
-                            <div class="control-label">세트</div>
+                            <div class="control-label">Sets</div>
                             <button class="control-btn" data-action="dec-sets" data-index="${index}">−</button>
-                            <div class="control-value">${exercise.sets || 0}세트</div>
+                            <div class="control-value">${exercise.sets || 0} sets</div>
                             <button class="control-btn" data-action="inc-sets" data-index="${index}">+</button>
                         </div>
                     </div>
@@ -103,9 +103,9 @@ export class EditorView {
                     </div>
                     <div class="exercise-controls">
                         <div class="control-row">
-                            <div class="control-label">층수</div>
+                            <div class="control-label">Floors</div>
                             <button class="control-btn" data-action="dec-floors" data-index="${index}">−</button>
-                            <div class="control-value">${exercise.floors}층</div>
+                            <div class="control-value">${exercise.floors} floors</div>
                             <button class="control-btn" data-action="inc-floors" data-index="${index}">+</button>
                         </div>
                     </div>
@@ -122,9 +122,9 @@ export class EditorView {
                     </div>
                     <div class="exercise-controls">
                         <div class="control-row">
-                            <div class="control-label">시간</div>
+                            <div class="control-label">Time</div>
                             <button class="control-btn" data-action="dec-minutes" data-index="${index}">−</button>
-                            <div class="control-value">${exercise.minutes}분</div>
+                            <div class="control-value">${exercise.minutes} min</div>
                             <button class="control-btn" data-action="inc-minutes" data-index="${index}">+</button>
                         </div>
                     </div>
@@ -229,23 +229,23 @@ export class EditorView {
         const pickerHTML = `
             <div class="exercise-picker">
                 <div class="picker-header">
-                    <button id="picker-back-btn" class="btn-secondary">← 뒤로</button>
-                    <h2>운동 선택</h2>
+                    <button id="picker-back-btn" class="btn-secondary">← Back</button>
+                    <h2>Select Exercise</h2>
                     <div style="width: 44px;"></div>
                 </div>
                 <div class="picker-content">
                     <div class="search-box">
-                        <input type="text" id="exercise-search" placeholder="🔍 운동 검색...">
+                        <input type="text" id="exercise-search" placeholder="🔍 Search exercises...">
                     </div>
 
                     ${commonExercises.length > 0 ? `
                         <div class="picker-section">
-                            <div class="section-title">자주하는 운동</div>
+                            <div class="section-title">Common Exercises</div>
                             <div class="exercise-grid">
                                 ${commonExercises.map(ex => `
                                     <button class="exercise-option" data-exercise='${JSON.stringify(ex)}'>
                                         <div class="exercise-option-name">${ex.name}</div>
-                                        <div class="exercise-option-count">${ex.count}회 사용</div>
+                                        <div class="exercise-option-count">${ex.count} times</div>
                                     </button>
                                 `).join('')}
                             </div>
@@ -253,7 +253,7 @@ export class EditorView {
                     ` : ''}
 
                     <div class="picker-section">
-                        <div class="section-title">유산소</div>
+                        <div class="section-title">Cardio</div>
                         <div class="cardio-buttons">
                             <button class="btn btn-secondary cardio-btn" data-cardio="stepmill">
                                 스탭밀 75층
@@ -366,13 +366,13 @@ export class EditorView {
 
     async saveWorkout() {
         if (this.exercises.length === 0) {
-            alert('운동을 추가해주세요');
+            alert('Please add exercises');
             return;
         }
 
         try {
             // Show saving state
-            document.getElementById('save-btn').textContent = '저장 중...';
+            document.getElementById('save-btn').textContent = 'Saving...';
             document.getElementById('save-btn').disabled = true;
 
             // Create workout object
@@ -401,15 +401,15 @@ export class EditorView {
             State.setWorkouts(updatedWorkouts);
 
             // Show success and go back
-            alert('운동이 저장되었습니다! ✓');
+            alert('Workout saved! ✓');
             State.setView('history');
 
         } catch (error) {
             console.error('Save error:', error);
-            alert('저장 실패: ' + error.message);
+            alert('Save failed: ' + error.message);
 
             // Re-enable save button
-            document.getElementById('save-btn').textContent = '저장 ✓';
+            document.getElementById('save-btn').textContent = 'Save ✓';
             document.getElementById('save-btn').disabled = false;
         }
     }

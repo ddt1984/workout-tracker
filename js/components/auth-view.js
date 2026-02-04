@@ -20,7 +20,7 @@ export class AuthView {
                     <p>Workout Tracker</p>
                     <div class="loading">
                         <div class="spinner"></div>
-                        <p>인증 중...</p>
+                        <p>Authenticating...</p>
                     </div>
                 </div>
             `;
@@ -48,7 +48,7 @@ export class AuthView {
             <div class="auth-view">
                 <h1>🏋️</h1>
                 <h2>Workout Tracker</h2>
-                <p>GitHub Personal Access Token으로 로그인</p>
+                <p>Login with GitHub Personal Access Token</p>
 
                 <div style="width: 100%; max-width: 400px; margin: 2rem 0;">
                     <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.9rem;">
@@ -61,17 +61,17 @@ export class AuthView {
                         style="width: 100%; padding: 0.75rem; background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: monospace; font-size: 0.9rem;"
                     >
                     <button id="token-login-btn" class="btn btn-primary btn-large" style="margin-top: 1rem;">
-                        로그인
+                        Login
                     </button>
                 </div>
 
                 <details style="margin-top: 2rem; max-width: 400px; color: var(--text-secondary); font-size: 0.85rem;">
-                    <summary style="cursor: pointer; margin-bottom: 0.5rem;">토큰 만드는 방법</summary>
+                    <summary style="cursor: pointer; margin-bottom: 0.5rem;">How to create a token</summary>
                     <ol style="margin-left: 1.5rem; line-height: 1.8;">
                         <li><a href="https://github.com/settings/tokens" target="_blank" style="color: var(--accent);">GitHub Settings → Tokens</a></li>
-                        <li>"Generate new token (classic)" 클릭</li>
-                        <li>Scope에서 "repo" 체크</li>
-                        <li>토큰 생성 후 복사하여 위에 붙여넣기</li>
+                        <li>Click "Generate new token (classic)"</li>
+                        <li>Check "repo" scope</li>
+                        <li>Generate and copy the token, then paste above</li>
                     </ol>
                 </details>
             </div>
@@ -93,12 +93,12 @@ export class AuthView {
         const token = tokenInput.value.trim();
 
         if (!token) {
-            alert('토큰을 입력해주세요');
+            alert('Please enter a token');
             return;
         }
 
         if (!token.startsWith('ghp_')) {
-            alert('유효한 GitHub Personal Access Token을 입력해주세요 (ghp_로 시작)');
+            alert('Please enter a valid GitHub Personal Access Token (starts with ghp_)');
             return;
         }
 
@@ -109,7 +109,7 @@ export class AuthView {
                     <h1>🏋️</h1>
                     <div class="loading">
                         <div class="spinner"></div>
-                        <p>인증 중...</p>
+                        <p>Authenticating...</p>
                     </div>
                 </div>
             `;
@@ -130,7 +130,7 @@ export class AuthView {
                 <div class="auth-view">
                     <h1>🏋️</h1>
                     <div class="message message-success">
-                        환영합니다, ${user.login}님!
+                        Welcome, ${user.login}!
                     </div>
                 </div>
             `;
@@ -146,10 +146,10 @@ export class AuthView {
                 <div class="auth-view">
                     <h1>🏋️</h1>
                     <div class="message message-error">
-                        로그인 실패: ${error.message}
+                        Login failed: ${error.message}
                     </div>
                     <button id="retry-btn" class="btn btn-primary btn-large">
-                        다시 시도
+                        Retry
                     </button>
                 </div>
             `;
@@ -216,7 +216,7 @@ export class AuthView {
                 <div class="auth-view">
                     <h1>🏋️</h1>
                     <div class="message message-success">
-                        환영합니다, ${user.login}님!
+                        Welcome, ${user.login}!
                     </div>
                     <div class="loading">
                         <div class="spinner"></div>
@@ -234,10 +234,10 @@ export class AuthView {
                 <div class="auth-view">
                     <h1>🏋️</h1>
                     <div class="message message-error">
-                        로그인 실패: ${error.message}
+                        Login failed: ${error.message}
                     </div>
                     <button id="retry-btn" class="btn btn-primary btn-large">
-                        다시 시도
+                        Retry
                     </button>
                 </div>
             `;

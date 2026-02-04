@@ -27,15 +27,15 @@ export class HistoryView {
                 </div>
                 <div class="quick-actions">
                     <button id="copy-latest-btn" class="btn btn-primary">
-                        📋 최근 복사
+                        📋 Copy Latest
                     </button>
                     <button id="new-workout-btn" class="btn btn-secondary">
-                        ➕ 새 운동
+                        ➕ New Workout
                     </button>
                 </div>
                 <div class="loading">
                     <div class="spinner"></div>
-                    <p>운동 기록 불러오는 중...</p>
+                    <p>Loading workouts...</p>
                 </div>
             </div>
         `;
@@ -75,9 +75,9 @@ export class HistoryView {
             if (cached && cached.length > 0) {
                 State.setWorkouts(cached);
                 this.renderWorkoutList(cached);
-                this.showMessage('캐시된 데이터를 표시합니다', 'warning');
+                this.showMessage('Showing cached data', 'warning');
             } else {
-                this.showMessage('운동 기록을 불러올 수 없습니다: ' + error.message, 'error');
+                this.showMessage('Failed to load workouts: ' + error.message, 'error');
             }
 
             State.setLoading(false);
@@ -88,8 +88,8 @@ export class HistoryView {
         if (workouts.length === 0) {
             this.container.querySelector('.loading').innerHTML = `
                 <p style="text-align: center; color: var(--text-secondary); padding: 2rem;">
-                    아직 운동 기록이 없습니다<br>
-                    첫 운동을 추가해보세요!
+                    No workouts yet<br>
+                    Add your first workout!
                 </p>
             `;
             return;
@@ -126,7 +126,7 @@ export class HistoryView {
                         </div>
                         <div class="workout-actions">
                             <button class="btn btn-secondary btn-copy" data-workout-index="${workouts.indexOf(workout)}">
-                                📋 복사
+                                📋 Copy
                             </button>
                         </div>
                     </div>
@@ -170,7 +170,7 @@ export class HistoryView {
             if (latest) {
                 this.copyWorkout(latest);
             } else {
-                this.showMessage('복사할 운동이 없습니다', 'error');
+                this.showMessage('No workouts to copy', 'error');
             }
         });
 
@@ -208,7 +208,7 @@ export class HistoryView {
         const user = State.user;
         const repo = Storage.getRepo();
 
-        if (confirm('로그아웃 하시겠습니까?')) {
+        if (confirm('Logout?')) {
             Storage.clear();
             State.update({
                 user: null,
