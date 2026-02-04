@@ -382,6 +382,7 @@ body {
     text-align: center;
     box-shadow: var(--shadow-sm);
     transition: all var(--transition-fast);
+    color: var(--text-primary);
 }
 
 .exercise-option:active {
@@ -392,11 +393,12 @@ body {
 .exercise-option-name {
     font-weight: 600;
     margin-bottom: var(--spacing-xs);
+    color: var(--text-primary);
 }
 
 .exercise-option-count {
     font-size: 0.85rem;
-    color: var(--text-tertiary);
+    color: var(--text-secondary);
 }
 
 .cardio-buttons {

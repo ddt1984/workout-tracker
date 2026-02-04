@@ -263,6 +263,26 @@ export class EditorView {
                             </button>
                         </div>
                     </div>
+
+                    <div class="picker-section">
+                        <div class="section-title">Add New Exercise</div>
+                        <div style="background: var(--bg-tertiary); padding: var(--spacing-md); border-radius: var(--radius-md);">
+                            <input
+                                type="text"
+                                id="new-exercise-name"
+                                placeholder="Exercise name..."
+                                style="width: 100%; padding: var(--spacing-sm); background: var(--bg-primary); color: var(--text-primary); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: var(--spacing-sm);"
+                            >
+                            <div style="display: flex; gap: var(--spacing-sm);">
+                                <button class="btn btn-secondary" id="add-weighted-btn" style="flex: 1;">
+                                    ⚖️ Weighted
+                                </button>
+                                <button class="btn btn-secondary" id="add-cardio-btn" style="flex: 1;">
+                                    🏃 Cardio
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         `;
@@ -308,6 +328,59 @@ export class EditorView {
         searchInput.addEventListener('input', (e) => {
             this.filterExercises(e.target.value);
         });
+
+        // Add new exercise buttons
+        document.getElementById('add-weighted-btn').addEventListener('click', () => {
+            this.addNewExercise('weighted');
+        });
+
+        document.getElementById('add-cardio-btn').addEventListener('click', () => {
+            this.addNewExercise('cardio');
+        });
+    }
+
+    addNewExercise(type) {
+        const nameInput = document.getElementById('new-exercise-name');
+        const name = nameInput.value.trim();
+
+        if (!name) {
+            alert('Please enter exercise name');
+            return;
+        }
+
+        let newExercise;
+
+        if (type === 'weighted') {
+            newExercise = {
+                type: 'weighted',
+                name: name,
+                weight: 20,
+                reps: 12,
+                sets: 4
+            };
+        } else if (type === 'cardio') {
+            // Ask user which cardio type
+            const cardioType = confirm('Step mill? (Cancel for walking)');
+            if (cardioType) {
+                newExercise = {
+                    type: 'stepmill',
+                    name: name,
+                    floors: 75
+                };
+            } else {
+                newExercise = {
+                    type: 'walking',
+                    name: name,
+                    minutes: 10
+                };
+            }
+        }
+
+        this.exercises.push(newExercise);
+        this.hideExercisePicker();
+
+        // Re-render exercise cards
+        document.getElementById('exercise-cards').innerHTML = this.renderExerciseCards();
     }
 
     filterExercises(query) {
