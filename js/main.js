@@ -4,6 +4,7 @@ import { Storage } from './core/storage.js';
 import { AuthView } from './components/auth-view.js';
 import { HistoryView } from './components/history-view.js';
 import { EditorView } from './components/editor-view.js';
+import { CalendarView } from './components/calendar-view.js';
 
 class App {
     constructor() {
@@ -49,6 +50,10 @@ class App {
 
             case 'editor':
                 this.currentView = new EditorView(this.container);
+                break;
+
+            case 'calendar':
+                this.currentView = new CalendarView(this.container);
                 break;
 
             default:

@@ -25,6 +25,16 @@ export class HistoryView {
                         </button>
                     </div>
                 </div>
+
+                <div class="tab-nav">
+                    <button id="history-tab" class="tab-btn active">
+                        📋 History
+                    </button>
+                    <button id="calendar-tab" class="tab-btn">
+                        📅 Calendar
+                    </button>
+                </div>
+
                 <div class="quick-actions">
                     <button id="copy-latest-btn" class="btn btn-primary">
                         📋 Copy Latest
@@ -164,6 +174,11 @@ export class HistoryView {
     }
 
     setupEventListeners() {
+        // Tab navigation
+        document.getElementById('calendar-tab').addEventListener('click', () => {
+            State.setView('calendar');
+        });
+
         // Copy latest workout
         document.getElementById('copy-latest-btn').addEventListener('click', () => {
             const latest = State.getLatestWorkout();
