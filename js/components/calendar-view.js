@@ -1,4 +1,6 @@
 // Calendar view component - shows workout calendar
+import { GitHubAPI } from '../core/github-api.js';
+import { Parser } from '../core/parser.js';
 import { State } from '../core/state.js';
 import { DateUtils } from '../utils/date-utils.js';
 
@@ -60,13 +62,18 @@ export class CalendarView {
         this.setupEventListeners();
     }
 
-    renderCalendar() {
+    async renderCalendar() {
         const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
                            'July', 'August', 'September', 'October', 'November', 'December'];
 
         // Update month display
         document.getElementById('current-month').textContent =
             `${monthNames[this.currentMonth]} ${this.currentYear}`;
+
+        // Check if we need to load data for this year
+        if (!State.hasYearData(this.currentYear)) {
+            await this.loadYearData(this.currentYear);
+        }
 
         // Get workout days for this month
         const workoutDays = this.getWorkoutDaysForMonth(this.currentYear, this.currentMonth);
@@ -135,7 +142,10 @@ export class CalendarView {
     getWorkoutDaysForMonth(year, month) {
         const workoutDays = new Map(); // day -> count
 
-        State.workouts.forEach(workout => {
+        // Get workouts for this specific year
+        const yearWorkouts = State.getWorkoutsForYear(year);
+
+        yearWorkouts.forEach(workout => {
             const date = new Date(workout.date);
             if (date.getFullYear() === year && date.getMonth() === month) {
                 const day = date.getDate();
@@ -147,7 +157,10 @@ export class CalendarView {
     }
 
     showWorkoutDetails(day) {
-        const workouts = State.workouts.filter(workout => {
+        // Get workouts for this specific year
+        const yearWorkouts = State.getWorkoutsForYear(this.currentYear);
+
+        const workouts = yearWorkouts.filter(workout => {
             const date = new Date(workout.date);
             return date.getFullYear() === this.currentYear &&
                    date.getMonth() === this.currentMonth &&

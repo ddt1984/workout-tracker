@@ -193,19 +193,29 @@ export const GitHubAPI = {
         }
     },
 
+    // Get workout file for specific year
+    async getYearFile(year) {
+        const path = `records_${year}.txt`;
+        return this.getFileContent(path);
+    },
+
     // Get current year's workout file
     async getCurrentYearFile() {
         const year = new Date().getFullYear();
+        return this.getYearFile(year);
+    },
+
+    // Update workout file for specific year
+    async updateYearFile(year, content, sha = null) {
         const path = `records_${year}.txt`;
-        return this.getFileContent(path);
+        const message = `Update workout - ${new Date().toISOString().split('T')[0]}`;
+        return this.updateFile(path, content, message, sha);
     },
 
     // Update current year's workout file
     async updateCurrentYearFile(content, sha = null) {
         const year = new Date().getFullYear();
-        const path = `records_${year}.txt`;
-        const message = `Update workout - ${new Date().toISOString().split('T')[0]}`;
-        return this.updateFile(path, content, message, sha);
+        return this.updateYearFile(year, content, sha);
     },
 
     // List repositories for user (for setup)

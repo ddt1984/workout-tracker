@@ -2,7 +2,8 @@
 export const State = {
     // Current state
     user: null,
-    workouts: [],
+    workouts: [], // All workouts (flattened from all years)
+    workoutsByYear: {}, // Year -> workouts map for caching
     exercises: [], // Exercise database with frequency
     currentView: 'auth',
     isLoading: false,
@@ -45,10 +46,36 @@ export const State = {
         this.update({ user });
     },
 
-    // Set workouts
-    setWorkouts(workouts) {
-        this.update({ workouts });
+    // Set workouts for a specific year
+    setWorkoutsForYear(year, workouts) {
+        this.workoutsByYear[year] = workouts;
+
+        // Flatten all workouts from all years
+        const allWorkouts = Object.values(this.workoutsByYear)
+            .flat()
+            .sort((a, b) => b.date.localeCompare(a.date)); // Sort by date desc
+
+        this.update({
+            workouts: allWorkouts,
+            workoutsByYear: this.workoutsByYear
+        });
         this.buildExerciseDatabase();
+    },
+
+    // Set workouts (legacy method, sets current year)
+    setWorkouts(workouts) {
+        const year = new Date().getFullYear();
+        this.setWorkoutsForYear(year, workouts);
+    },
+
+    // Get workouts for a specific year
+    getWorkoutsForYear(year) {
+        return this.workoutsByYear[year] || [];
+    },
+
+    // Check if year data is loaded
+    hasYearData(year) {
+        return year in this.workoutsByYear;
     },
 
     // Build exercise database from workouts

@@ -61,13 +61,14 @@ export class HistoryView {
         try {
             State.setLoading(true);
 
-            // Load from GitHub
-            const { content, sha } = await GitHubAPI.getCurrentYearFile();
+            // Load from GitHub (current year)
+            const year = new Date().getFullYear();
+            const { content, sha } = await GitHubAPI.getYearFile(year);
             this.fileSha = sha;
 
             // Parse workouts
-            const workouts = Parser.parseFile(content);
-            State.setWorkouts(workouts);
+            const workouts = Parser.parseFile(content, year);
+            State.setWorkoutsForYear(year, workouts);
 
             // Cache workouts
             Storage.setCachedWorkouts(workouts);
@@ -83,7 +84,8 @@ export class HistoryView {
             // Try to load from cache
             const cached = Storage.getCachedWorkouts();
             if (cached && cached.length > 0) {
-                State.setWorkouts(cached);
+                const year = new Date().getFullYear();
+                State.setWorkoutsForYear(year, cached);
                 this.renderWorkoutList(cached);
                 this.showMessage('Showing cached data', 'warning');
             } else {
