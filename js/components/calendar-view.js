@@ -62,6 +62,30 @@ export class CalendarView {
         this.setupEventListeners();
     }
 
+    async loadYearData(year) {
+        try {
+            // Show loading indicator
+            const calendarGrid = document.getElementById('calendar-grid');
+            calendarGrid.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading...</p></div>';
+
+            // Load from GitHub
+            const { content } = await GitHubAPI.getYearFile(year);
+
+            if (content) {
+                // Parse workouts for this year
+                const workouts = Parser.parseFile(content, year);
+                State.setWorkoutsForYear(year, workouts);
+            } else {
+                // No data for this year
+                State.setWorkoutsForYear(year, []);
+            }
+        } catch (error) {
+            console.error('Failed to load year data:', error);
+            // Set empty array so we don't keep trying
+            State.setWorkoutsForYear(year, []);
+        }
+    }
+
     async renderCalendar() {
         const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
                            'July', 'August', 'September', 'October', 'November', 'December'];
