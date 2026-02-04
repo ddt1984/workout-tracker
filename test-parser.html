@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parser Test</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 2rem;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        .test-section {
+            margin: 2rem 0;
+            padding: 1rem;
+            background: #2a2a2a;
+            border-radius: 8px;
+        }
+        .success { color: #4caf50; }
+        .error { color: #f44336; }
+        pre {
+            background: #1a1a1a;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Workout Parser Test</h1>
+
+    <div class="test-section">
+        <h2>Test 1: Parse Sample Data</h2>
+        <div id="test1-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 2: Round-trip (Parse → Serialize)</h2>
+        <div id="test2-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 3: Exercise Database</h2>
+        <div id="test3-result"></div>
+    </div>
+
+    <script type="module">
+        import { Parser } from './js/core/parser.js';
+        import { State } from './js/core/state.js';
+
+        // Sample data from records_2026.txt
+        const sampleData = `2월 3일
+스탭밀 75층
+걷기 10분
+
+2월 1일
+레그프레스 120kg 12 x 4
+랫플다운 35kg 12 x
+풀업머신 28kg 12 x
+풀업머신 21kg 8 x
+레그 익스텐션 40kg 12 x
+리버스 플라이 20kg 12 x
+리버스 플라이 25kg 12 x
+체스트 플라이 45kg 12 x
+체스트 프레스 45kg 12 x
+인클라인 체스트 프레스 50kg 12 x
+인클라인 체스트 프레스 40kg 12 x
+숄더 프레스 30kg 12 x
+시티드 레그컬 40kg 12 x
+핵 스쿼트 40kg 12 x
+로우로우 45kg 12 x
+덤벨 숄더 프레스 24kg 12 x 4
+스탭밀 70층
+
+---
+1월 31일
+랫플다운 35kg 12 x 4
+체스트 플라이 45kg 12 x 4
+체스트 프레스 45kg 12 x 4
+로우로우 45kg 12 x 4
+스탭밀 30층`;
+
+        // Test 1: Parse
+        console.log('Test 1: Parsing sample data...');
+        const workouts = Parser.parseFile(sampleData, 2026);
+
+        const test1Result = document.getElementById('test1-result');
+        test1Result.innerHTML = `
+            <p class="success">✓ Parsed ${workouts.length} workouts</p>
+            <pre>${JSON.stringify(workouts, null, 2)}</pre>
+        `;
+
+        // Test 2: Round-trip
+        console.log('Test 2: Round-trip test...');
+        const serialized = Parser.serializeFile(workouts);
+        const reparsed = Parser.parseFile(serialized, 2026);
+
+        const test2Result = document.getElementById('test2-result');
+        const roundTripMatch = JSON.stringify(workouts) === JSON.stringify(reparsed);
+
+        test2Result.innerHTML = `
+            <p class="${roundTripMatch ? 'success' : 'error'}">
+                ${roundTripMatch ? '✓' : '✗'} Round-trip test ${roundTripMatch ? 'passed' : 'failed'}
+            </p>
+            <h3>Original Text:</h3>
+            <pre>${sampleData}</pre>
+            <h3>Serialized Text:</h3>
+            <pre>${serialized}</pre>
+            <h3>Differences:</h3>
+            <pre>${roundTripMatch ? 'None - perfect match!' : 'Data mismatch detected'}</pre>
+        `;
+
+        // Test 3: Exercise database
+        console.log('Test 3: Building exercise database...');
+        State.setWorkouts(workouts);
+
+        const test3Result = document.getElementById('test3-result');
+        const exercises = State.exercises;
+
+        test3Result.innerHTML = `
+            <p class="success">✓ Found ${exercises.length} unique exercises</p>
+            <h3>Top 10 Exercises (by frequency):</h3>
+            <pre>${JSON.stringify(exercises.slice(0, 10), null, 2)}</pre>
+        `;
+
+        console.log('All tests complete!');
+    </script>
+</body>
+</html>

@@ -1,0 +1,258 @@
+🏋️ WORKOUT TRACKER - SETUP CHECKLIST
+=====================================
+
+Use this checklist to track your setup progress.
+Mark items with [X] as you complete them.
+
+PHASE 1: REGISTER OAUTH APP (5 minutes)
+═══════════════════════════════════════════════════════════
+
+[ ] 1.1 Go to https://github.com/settings/developers
+[ ] 1.2 Click "OAuth Apps" tab
+[ ] 1.3 Click "New OAuth App"
+[ ] 1.4 Fill in application details:
+    [ ] Application name: "Workout Tracker"
+    [ ] Homepage URL: "http://localhost:8000"
+    [ ] Authorization callback: "http://localhost:8000"
+[ ] 1.5 Click "Register application"
+[ ] 1.6 Copy the Client ID (save it somewhere safe)
+
+PHASE 2: UPDATE CODE (2 minutes)
+═══════════════════════════════════════════════════════════
+
+[ ] 2.1 Open: js/core/github-api.js
+[ ] 2.2 Find line 10: CLIENT_ID: 'Ov23liuYOOAcZPEDDdxT'
+[ ] 2.3 Replace with your Client ID
+[ ] 2.4 Save the file
+
+PHASE 3: CREATE DATA REPOSITORY (3 minutes)
+═══════════════════════════════════════════════════════════
+
+[ ] 3.1 Go to https://github.com/new
+[ ] 3.2 Repository name: "workout"
+[ ] 3.3 Visibility: Private (recommended) or Public
+[ ] 3.4 Do NOT initialize with README
+[ ] 3.5 Click "Create repository"
+[ ] 3.6 Upload your workout files:
+    [ ] Go to "Add file" → "Upload files"
+    [ ] Upload "records_2026.txt"
+    [ ] Upload any other year files (optional)
+    [ ] Commit the files
+
+PHASE 4: TEST LOCALLY (5 minutes)
+═══════════════════════════════════════════════════════════
+
+[ ] 4.1 Open terminal in workout-tracker folder
+[ ] 4.2 Start server: python -m http.server 8000
+[ ] 4.3 Open browser: http://localhost:8000
+[ ] 4.4 Test parser: http://localhost:8000/test-parser.html
+    [ ] All tests should pass ✓
+    [ ] Review parsed data structure
+    [ ] Check round-trip serialization
+
+PHASE 5: AUTHENTICATE (5 minutes)
+═══════════════════════════════════════════════════════════
+
+[ ] 5.1 Go to http://localhost:8000
+[ ] 5.2 Click "GitHub로 로그인"
+[ ] 5.3 Copy the 8-character code
+[ ] 5.4 Click the link to GitHub
+[ ] 5.5 Paste the code
+[ ] 5.6 Click "Authorize"
+[ ] 5.7 Return to app (should auto-login)
+[ ] 5.8 Verify login successful (see username)
+
+PHASE 6: TEST CORE FEATURES (10 minutes)
+═══════════════════════════════════════════════════════════
+
+[ ] 6.1 View workout history
+    [ ] See all your workouts from records_2026.txt
+    [ ] Workouts grouped by month
+    [ ] Dates and exercises displayed correctly
+
+[ ] 6.2 Copy latest workout
+    [ ] Click "📋 최근 복사" button
+    [ ] Editor opens with pre-filled data
+    [ ] Date is set to today
+    [ ] All exercises copied correctly
+
+[ ] 6.3 Test +/- buttons
+    [ ] Tap [+] on weight (should increase by 5kg)
+    [ ] Tap [-] on weight (should decrease by 5kg)
+    [ ] Tap [+] on reps (should increase by 1)
+    [ ] Tap [-] on reps (should decrease by 1)
+    [ ] Tap [+] on sets (should increase by 1)
+    [ ] Tap [-] on sets (should decrease by 1)
+
+[ ] 6.4 Save workout
+    [ ] Click "저장 ✓" button
+    [ ] See "운동이 저장되었습니다!" message
+    [ ] Redirected to history view
+    [ ] New workout appears at top
+
+[ ] 6.5 Verify GitHub commit
+    [ ] Go to your "workout" repository on GitHub
+    [ ] Click "commits"
+    [ ] See new commit with today's date
+    [ ] Click on commit to see changes
+    [ ] Verify new workout is at top of file
+
+[ ] 6.6 Test exercise picker
+    [ ] Click "➕ 새 운동" (New Workout)
+    [ ] Click "➕ 운동 추가" (Add Exercise)
+    [ ] See list of common exercises
+    [ ] Exercises sorted by frequency
+    [ ] Usage counts displayed
+    [ ] Click an exercise (should pre-fill values)
+
+[ ] 6.7 Test search
+    [ ] In exercise picker, use search box
+    [ ] Type exercise name
+    [ ] Verify filtering works
+
+[ ] 6.8 Test cardio buttons
+    [ ] Click "스탭밀 75층" button
+    [ ] Verify stepmill exercise added
+    [ ] Click "걷기 10분" button
+    [ ] Verify walking exercise added
+
+[ ] 6.9 Test remove exercise
+    [ ] Click 🗑️ button on an exercise
+    [ ] Verify exercise removed from list
+
+PHASE 7: MOBILE DEPLOYMENT (Optional, 15 minutes)
+═══════════════════════════════════════════════════════════
+
+[ ] 7.1 Create app repository
+    [ ] Go to https://github.com/new
+    [ ] Name: "workout-tracker"
+    [ ] Visibility: Public
+    [ ] Create repository
+
+[ ] 7.2 Push code to GitHub
+    [ ] cd workout-tracker
+    [ ] git init
+    [ ] git add .
+    [ ] git commit -m "Initial commit"
+    [ ] git branch -M main
+    [ ] git remote add origin <your-repo-url>
+    [ ] git push -u origin main
+
+[ ] 7.3 Enable GitHub Pages
+    [ ] Go to repository Settings
+    [ ] Click "Pages" in sidebar
+    [ ] Source: Deploy from a branch
+    [ ] Branch: main, folder: / (root)
+    [ ] Click "Save"
+    [ ] Wait ~1 minute for deployment
+
+[ ] 7.4 Update OAuth app
+    [ ] Go to https://github.com/settings/developers
+    [ ] Click your "Workout Tracker" app
+    [ ] Update Homepage URL to GitHub Pages URL
+    [ ] Update Authorization callback to same URL
+    [ ] Click "Update application"
+
+[ ] 7.5 Test on mobile
+    [ ] Open GitHub Pages URL on your phone
+    [ ] Test authentication
+    [ ] Test viewing workouts
+    [ ] Test copy and edit workflow
+    [ ] Test +/- buttons (verify touch targets)
+
+[ ] 7.6 Add to home screen
+    iOS:
+    [ ] Open in Safari
+    [ ] Tap Share button
+    [ ] Tap "Add to Home Screen"
+    [ ] Name it and tap "Add"
+
+    Android:
+    [ ] Open in Chrome
+    [ ] Tap menu (⋮)
+    [ ] Tap "Add to Home Screen"
+    [ ] Name it and tap "Add"
+
+[ ] 7.7 Test as PWA
+    [ ] Open from home screen icon
+    [ ] Verify full-screen mode
+    [ ] Test offline view (airplane mode)
+    [ ] Verify cached workouts visible
+
+PHASE 8: FINAL VERIFICATION (5 minutes)
+═══════════════════════════════════════════════════════════
+
+[ ] 8.1 Success criteria checklist:
+    [ ] Can view all historical workouts
+    [ ] Can add workout with ONLY taps (no typing)
+    [ ] Copy workflow faster than text editing
+    [ ] +/- buttons work smoothly (44x44px)
+    [ ] Exercise picker shows common exercises
+    [ ] Data syncs via GitHub
+    [ ] Works on mobile with good UX
+    [ ] No data loss (txt format preserved)
+
+[ ] 8.2 Performance check:
+    [ ] Copy → Edit → Save in under 10 seconds
+    [ ] Touch targets easy to hit on mobile
+    [ ] Dark mode comfortable in gym lighting
+    [ ] Animations smooth
+
+[ ] 8.3 Data integrity check:
+    [ ] Open records_2026.txt in GitHub
+    [ ] Verify format matches original
+    [ ] Check Korean dates (M월 D일)
+    [ ] Check exercise format (weight, reps, sets)
+    [ ] Check month separators (---)
+
+TROUBLESHOOTING
+═══════════════════════════════════════════════════════════
+
+Problem: "Not initialized" error
+[ ] Verify CLIENT_ID updated in github-api.js
+[ ] Check OAuth app is registered correctly
+[ ] Try logging out and back in
+
+Problem: Can't find workouts / 404 error
+[ ] Verify repository name is "workout"
+[ ] Check file is named "records_2026.txt"
+[ ] Verify you authorized repo access
+[ ] Try refreshing with 🔄 button
+
+Problem: Modules not loading
+[ ] Use local server (not file://)
+[ ] python -m http.server 8000
+[ ] Check browser console for errors
+
+Problem: Can't save workouts
+[ ] Verify OAuth scope includes "repo"
+[ ] Check you have write access to repository
+[ ] Try re-authorizing the app
+[ ] Check GitHub API rate limits
+
+Problem: Parser test fails
+[ ] Check records_2026.txt format
+[ ] Verify Korean characters display correctly
+[ ] Check for unexpected line breaks
+[ ] Review test output in browser console
+
+SETUP COMPLETE! 🎉
+═══════════════════════════════════════════════════════════
+
+✓ All phases complete
+✓ App is working
+✓ Mobile deployment done (if applicable)
+✓ Ready to use at the gym!
+
+Next workout: Just open the app and tap "최근 복사"!
+
+═══════════════════════════════════════════════════════════
+
+Notes / Issues:
+_____________________________________________________________
+_____________________________________________________________
+_____________________________________________________________
+_____________________________________________________________
+
+Setup Date: __________
+Completed By: __________
