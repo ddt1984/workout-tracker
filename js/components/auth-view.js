@@ -43,21 +43,121 @@ export class AuthView {
             return;
         }
 
-        // Show login button
+        // Show login button and token input
         this.container.innerHTML = `
             <div class="auth-view">
                 <h1>🏋️</h1>
                 <h2>Workout Tracker</h2>
-                <p>GitHub에 로그인하여 운동 기록을 동기화하세요</p>
-                <button id="login-btn" class="btn btn-primary btn-large">
-                    GitHub로 로그인
-                </button>
+                <p>GitHub Personal Access Token으로 로그인</p>
+
+                <div style="width: 100%; max-width: 400px; margin: 2rem 0;">
+                    <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.9rem;">
+                        Personal Access Token:
+                    </label>
+                    <input
+                        type="password"
+                        id="token-input"
+                        placeholder="ghp_..."
+                        style="width: 100%; padding: 0.75rem; background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: monospace; font-size: 0.9rem;"
+                    >
+                    <button id="token-login-btn" class="btn btn-primary btn-large" style="margin-top: 1rem;">
+                        로그인
+                    </button>
+                </div>
+
+                <details style="margin-top: 2rem; max-width: 400px; color: var(--text-secondary); font-size: 0.85rem;">
+                    <summary style="cursor: pointer; margin-bottom: 0.5rem;">토큰 만드는 방법</summary>
+                    <ol style="margin-left: 1.5rem; line-height: 1.8;">
+                        <li><a href="https://github.com/settings/tokens" target="_blank" style="color: var(--accent);">GitHub Settings → Tokens</a></li>
+                        <li>"Generate new token (classic)" 클릭</li>
+                        <li>Scope에서 "repo" 체크</li>
+                        <li>토큰 생성 후 복사하여 위에 붙여넣기</li>
+                    </ol>
+                </details>
             </div>
         `;
 
-        document.getElementById('login-btn').addEventListener('click', () => {
-            this.startLogin();
+        document.getElementById('token-login-btn').addEventListener('click', () => {
+            this.loginWithToken();
         });
+
+        document.getElementById('token-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.loginWithToken();
+            }
+        });
+    }
+
+    async loginWithToken() {
+        const tokenInput = document.getElementById('token-input');
+        const token = tokenInput.value.trim();
+
+        if (!token) {
+            alert('토큰을 입력해주세요');
+            return;
+        }
+
+        if (!token.startsWith('ghp_')) {
+            alert('유효한 GitHub Personal Access Token을 입력해주세요 (ghp_로 시작)');
+            return;
+        }
+
+        try {
+            // Show loading
+            this.container.innerHTML = `
+                <div class="auth-view">
+                    <h1>🏋️</h1>
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>인증 중...</p>
+                    </div>
+                </div>
+            `;
+
+            // Initialize with token
+            GitHubAPI.init(token);
+
+            // Get user info
+            const user = await GitHubAPI.getUser();
+
+            // Save token and user info
+            Storage.setToken(token);
+            Storage.setRepo(user.login, 'workout');
+            State.setUser(user);
+
+            // Show success
+            this.container.innerHTML = `
+                <div class="auth-view">
+                    <h1>🏋️</h1>
+                    <div class="message message-success">
+                        환영합니다, ${user.login}님!
+                    </div>
+                </div>
+            `;
+
+            // Navigate to history
+            setTimeout(() => {
+                State.setView('history');
+            }, 1000);
+
+        } catch (error) {
+            console.error('Token login error:', error);
+            this.container.innerHTML = `
+                <div class="auth-view">
+                    <h1>🏋️</h1>
+                    <div class="message message-error">
+                        로그인 실패: ${error.message}
+                    </div>
+                    <button id="retry-btn" class="btn btn-primary btn-large">
+                        다시 시도
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('retry-btn').addEventListener('click', () => {
+                this.render();
+            });
+        }
     }
 
     async startLogin() {
