@@ -461,8 +461,36 @@ export class EditorView {
             // Parse existing workouts
             const existingWorkouts = Parser.parseFile(currentContent);
 
-            // Prepend new workout
-            const updatedWorkouts = [workout, ...existingWorkouts];
+            // Check if we're editing an existing workout
+            const isEditing = State.isEditing;
+            const originalDate = State.editingWorkout?.date;
+
+            let updatedWorkouts;
+
+            if (isEditing && originalDate) {
+                // Replace the existing workout with the same date
+                const existingIndex = existingWorkouts.findIndex(w => w.date === originalDate);
+                if (existingIndex !== -1) {
+                    existingWorkouts[existingIndex] = workout;
+                    updatedWorkouts = existingWorkouts;
+                } else {
+                    // Original workout not found, add as new
+                    updatedWorkouts = [workout, ...existingWorkouts];
+                }
+            } else {
+                // Check if there's already a workout for this date (merge if adding to same day)
+                const existingIndex = existingWorkouts.findIndex(w => w.date === workout.date);
+
+                if (existingIndex !== -1) {
+                    // Merge exercises with existing workout
+                    const existing = existingWorkouts[existingIndex];
+                    existing.exercises = [...existing.exercises, ...workout.exercises];
+                    updatedWorkouts = existingWorkouts;
+                } else {
+                    // Add as new workout
+                    updatedWorkouts = [workout, ...existingWorkouts];
+                }
+            }
 
             // Serialize back to text
             const newContent = Parser.serializeFile(updatedWorkouts);

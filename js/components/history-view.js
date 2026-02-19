@@ -140,6 +140,9 @@ export class HistoryView {
                             <button class="btn btn-secondary btn-copy" data-workout-index="${workouts.indexOf(workout)}">
                                 📋 Copy
                             </button>
+                            <button class="btn btn-secondary btn-edit" data-workout-index="${workouts.indexOf(workout)}">
+                                ✏️ Edit
+                            </button>
                         </div>
                     </div>
                 `;
@@ -152,11 +155,18 @@ export class HistoryView {
 
         this.container.querySelector('.loading').outerHTML = html;
 
-        // Add event listeners for copy buttons
+        // Add event listeners for copy and edit buttons
         this.container.querySelectorAll('.btn-copy').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const index = parseInt(e.target.dataset.workoutIndex);
                 this.copyWorkout(workouts[index]);
+            });
+        });
+
+        this.container.querySelectorAll('.btn-edit').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const index = parseInt(e.target.dataset.workoutIndex);
+                this.editWorkout(workouts[index]);
             });
         });
     }
@@ -217,7 +227,18 @@ export class HistoryView {
             exercises: workout.exercises.map(ex => ({ ...ex }))
         };
 
-        State.update({ editingWorkout: copy });
+        State.update({ editingWorkout: copy, isEditing: false });
+        State.setView('editor');
+    }
+
+    editWorkout(workout) {
+        // Edit existing workout (keep original date)
+        const workoutToEdit = {
+            ...workout,
+            exercises: workout.exercises.map(ex => ({ ...ex }))
+        };
+
+        State.update({ editingWorkout: workoutToEdit, isEditing: true });
         State.setView('editor');
     }
 
