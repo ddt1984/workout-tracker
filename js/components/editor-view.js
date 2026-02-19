@@ -26,7 +26,7 @@ export class EditorView {
         this.container.innerHTML = `
             <div class="editor-view">
                 <div class="header">
-                    <button id="back-btn" class="btn-secondary">← Back</button>
+                    <button id="back-btn" class="btn btn-secondary">← Back</button>
                     <h1>Workout</h1>
                     <button id="save-btn" class="btn btn-success">Save ✓</button>
                 </div>
@@ -229,7 +229,7 @@ export class EditorView {
         const pickerHTML = `
             <div class="exercise-picker">
                 <div class="picker-header">
-                    <button id="picker-back-btn" class="btn-secondary">← Back</button>
+                    <button id="picker-back-btn" class="btn btn-secondary">← Back</button>
                     <h2>Select Exercise</h2>
                     <div style="width: 44px;"></div>
                 </div>
