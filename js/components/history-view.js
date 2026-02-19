@@ -31,7 +31,7 @@ export class HistoryView {
                         📋 History
                     </button>
                     <button id="calendar-tab" class="tab-btn">
-                        📅 Calendar
+                        📊 Analytics
                     </button>
                 </div>
 

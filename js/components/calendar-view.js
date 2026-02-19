@@ -31,11 +31,20 @@ export class CalendarView {
                         📋 History
                     </button>
                     <button id="calendar-tab" class="tab-btn active">
-                        📅 Calendar
+                        📊 Analytics
                     </button>
                 </div>
 
                 <div class="calendar-container">
+                    <!-- Monthly Workout Days Chart -->
+                    <div class="analytics-section">
+                        <h2 class="analytics-title">Monthly Workout Days</h2>
+                        <div id="monthly-chart" class="monthly-chart">
+                            <!-- Chart will be rendered here -->
+                        </div>
+                    </div>
+
+                    <!-- Calendar -->
                     <div class="calendar-header">
                         <button id="prev-month" class="btn-icon">←</button>
                         <h2 id="current-month"></h2>
@@ -58,8 +67,79 @@ export class CalendarView {
             </div>
         `;
 
+        this.renderMonthlyChart();
         this.renderCalendar();
         this.setupEventListeners();
+    }
+
+    async renderMonthlyChart() {
+        // Get last 13 months of data
+        const today = new Date();
+        const monthsData = [];
+
+        // Collect unique years needed
+        const yearsNeeded = new Set();
+        for (let i = 12; i >= 0; i--) {
+            const date = new Date(today.getFullYear(), today.getMonth() - i, 1);
+            yearsNeeded.add(date.getFullYear());
+        }
+
+        // Load data for years we don't have yet
+        for (const year of yearsNeeded) {
+            if (!State.hasYearData(year)) {
+                await this.loadYearData(year);
+            }
+        }
+
+        for (let i = 12; i >= 0; i--) {
+            const date = new Date(today.getFullYear(), today.getMonth() - i, 1);
+            const year = date.getFullYear();
+            const month = date.getMonth();
+
+            // Count unique workout days for this month
+            const workoutDays = new Set();
+
+            // Get workouts for this year
+            const yearWorkouts = State.getWorkoutsForYear(year);
+
+            yearWorkouts.forEach(workout => {
+                const workoutDate = new Date(workout.date);
+                if (workoutDate.getFullYear() === year && workoutDate.getMonth() === month) {
+                    workoutDays.add(workoutDate.getDate());
+                }
+            });
+
+            monthsData.push({
+                year: year,
+                month: month,
+                count: workoutDays.size,
+                label: date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' })
+            });
+        }
+
+        // Find max count for scaling
+        const maxCount = Math.max(...monthsData.map(m => m.count), 1);
+
+        // Generate chart HTML
+        let chartHTML = '<div class="chart-bars">';
+
+        monthsData.forEach(data => {
+            const percentage = (data.count / maxCount) * 100;
+            const isCurrentMonth = data.year === today.getFullYear() && data.month === today.getMonth();
+
+            chartHTML += `
+                <div class="chart-bar-container ${isCurrentMonth ? 'current' : ''}">
+                    <div class="chart-bar" style="height: ${percentage}%">
+                        <span class="bar-value">${data.count}</span>
+                    </div>
+                    <div class="bar-label">${data.label}</div>
+                </div>
+            `;
+        });
+
+        chartHTML += '</div>';
+
+        document.getElementById('monthly-chart').innerHTML = chartHTML;
     }
 
     async loadYearData(year) {
@@ -75,6 +155,9 @@ export class CalendarView {
                 // Parse workouts for this year
                 const workouts = Parser.parseFile(content, year);
                 State.setWorkoutsForYear(year, workouts);
+
+                // Update chart after loading new year data
+                this.renderMonthlyChart();
             } else {
                 // No data for this year
                 State.setWorkoutsForYear(year, []);
@@ -236,8 +319,9 @@ export class CalendarView {
 
         // Refresh
         document.getElementById('refresh-btn').addEventListener('click', () => {
-            // Reload from history view
-            State.setView('history');
+            // Reload chart and calendar
+            this.renderMonthlyChart();
+            this.renderCalendar();
         });
 
         // Settings
