@@ -224,7 +224,14 @@ export class HistoryView {
             ...workout,
             date: DateUtils.getTodayISO(),
             displayDate: DateUtils.getTodayKorean(),
-            exercises: workout.exercises.map(ex => ({ ...ex }))
+            exercises: workout.exercises.map(ex => {
+                // Reset sets to 0 for new workout session
+                const exerciseCopy = { ...ex };
+                if (exerciseCopy.type === 'weighted') {
+                    exerciseCopy.sets = 0;
+                }
+                return exerciseCopy;
+            })
         };
 
         State.update({ editingWorkout: copy, isEditing: false });
