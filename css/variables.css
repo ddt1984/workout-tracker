@@ -1,38 +1,66 @@
+/* Apple-inspired Design System */
 :root {
-    /* Colors - Dark Mode Default */
-    --bg-primary: #1a1a1a;
-    --bg-secondary: #2a2a2a;
-    --bg-tertiary: #3a3a3a;
-    --text-primary: #ffffff;
-    --text-secondary: #b0b0b0;
-    --text-tertiary: #808080;
-    --accent: #4a9eff;
-    --accent-hover: #3a8eef;
-    --success: #4caf50;
-    --error: #f44336;
-    --border: #404040;
+    /* Premium Dark Mode Colors */
+    --bg-primary: #000000;
+    --bg-secondary: #1c1c1e;
+    --bg-tertiary: #2c2c2e;
+    --bg-elevated: #3a3a3c;
 
-    /* Spacing */
+    /* Glass morphism */
+    --glass-bg: rgba(28, 28, 30, 0.72);
+    --glass-border: rgba(255, 255, 255, 0.1);
+
+    /* Text */
+    --text-primary: #ffffff;
+    --text-secondary: #ebebf5;
+    --text-tertiary: #8e8e93;
+
+    /* Accent Colors - iOS style */
+    --accent: #0a84ff;
+    --accent-hover: #0073e6;
+    --accent-light: rgba(10, 132, 255, 0.15);
+
+    /* Status Colors */
+    --success: #30d158;
+    --success-light: rgba(48, 209, 88, 0.15);
+    --error: #ff453a;
+    --warning: #ff9f0a;
+
+    /* Borders */
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.15);
+
+    /* Spacing - iOS style */
     --spacing-xs: 4px;
     --spacing-sm: 8px;
     --spacing-md: 16px;
     --spacing-lg: 24px;
     --spacing-xl: 32px;
+    --spacing-2xl: 48px;
+
+    /* Border Radius - iOS style */
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+
+    /* Shadows - Soft and layered */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.2);
+
+    /* Transitions - Smooth iOS style */
+    --transition-fast: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    --spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
     /* Touch targets */
     --touch-min: 44px;
 
-    /* Border radius */
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 16px;
-
-    /* Shadows */
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);
-
-    /* Transitions */
-    --transition-fast: 150ms ease;
-    --transition-normal: 250ms ease;
+    /* Backdrop blur */
+    --blur-sm: blur(10px);
+    --blur-md: blur(20px);
+    --blur-lg: blur(40px);
 }
