@@ -36,11 +36,11 @@ export class HistoryView {
                 </div>
 
                 <div class="quick-actions">
-                    <button id="copy-latest-btn" class="btn btn-primary">
-                        📋 Copy Latest
-                    </button>
-                    <button id="new-workout-btn" class="btn btn-secondary">
+                    <button id="new-workout-btn" class="btn btn-primary">
                         ➕ New Workout
+                    </button>
+                    <button id="copy-latest-btn" class="btn btn-secondary">
+                        📋 Copy Latest
                     </button>
                 </div>
                 <div class="loading">
