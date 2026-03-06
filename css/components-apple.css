@@ -653,6 +653,10 @@ body {
     text-align: center;
     white-space: pre-line;
     line-height: 1.2;
+    height: 2.4em;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
 }
 
 .chart-bar-container.current .bar-label {
@@ -699,6 +703,7 @@ body {
     .bar-label {
         font-size: 0.55rem;
         margin-top: 4px;
+        height: 2em;
     }
 
     .bar-value {
@@ -719,8 +724,13 @@ body {
         font-size: 1.1rem;
     }
 
+    .calendar-header {
+        padding: var(--spacing-sm);
+        margin-bottom: var(--spacing-md);
+    }
+
     .calendar-header h2 {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 }
 
@@ -728,8 +738,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--spacing-xl);
-    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-md);
     background: var(--bg-secondary);
     border-radius: var(--radius-lg);
     border: 1px solid var(--border);
@@ -737,7 +747,7 @@ body {
 }
 
 .calendar-header h2 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 700;
     letter-spacing: -0.5px;
 }
