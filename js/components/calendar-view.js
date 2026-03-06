@@ -91,6 +91,7 @@ export class CalendarView {
             }
         }
 
+        let prevYear = null;
         for (let i = 12; i >= 0; i--) {
             const date = new Date(today.getFullYear(), today.getMonth() - i, 1);
             const year = date.getFullYear();
@@ -109,11 +110,17 @@ export class CalendarView {
                 }
             });
 
+            // Show year only when it changes
+            const showYear = prevYear !== year;
+            const yearShort = String(year).slice(-2);
+            const label = showYear ? `'${yearShort}\n${month + 1}` : String(month + 1);
+            prevYear = year;
+
             monthsData.push({
                 year: year,
                 month: month,
                 count: workoutDays.size,
-                label: date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' })
+                label: label
             });
         }
 

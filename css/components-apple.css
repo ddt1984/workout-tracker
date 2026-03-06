@@ -30,7 +30,7 @@ body {
 }
 
 .header h1 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: -0.5px;
 }
@@ -651,7 +651,8 @@ body {
     font-weight: 600;
     color: var(--text-tertiary);
     text-align: center;
-    white-space: nowrap;
+    white-space: pre-line;
+    line-height: 1.2;
 }
 
 .chart-bar-container.current .bar-label {
@@ -661,20 +662,65 @@ body {
 
 /* Mobile optimization */
 @media (max-width: 640px) {
+    .header {
+        padding: var(--spacing-md) var(--spacing-sm);
+    }
+
+    .header h1 {
+        font-size: 1.2rem;
+    }
+
+    .analytics-section {
+        padding: var(--spacing-md);
+    }
+
+    .analytics-title {
+        font-size: 1.1rem;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .calendar-container {
+        padding: var(--spacing-md);
+    }
+
     .chart-bars {
         gap: 2px;
+        height: 150px;
     }
 
     .chart-bar-container {
         min-width: 20px;
     }
 
+    .chart-bar {
+        min-height: 20px;
+    }
+
     .bar-label {
-        font-size: 0.6rem;
+        font-size: 0.55rem;
+        margin-top: 4px;
     }
 
     .bar-value {
-        font-size: 0.7rem;
+        font-size: 0.65rem;
+    }
+
+    .month-header {
+        font-size: 1.4rem;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .workout-card {
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .workout-date {
+        font-size: 1.1rem;
+    }
+
+    .calendar-header h2 {
+        font-size: 1.2rem;
     }
 }
 
