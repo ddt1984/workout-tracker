@@ -211,25 +211,25 @@ body {
 .quick-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-sm);
-    padding: var(--spacing-md);
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-md) var(--spacing-lg);
     background: var(--bg-primary);
 }
 
 /* Workout List - iOS Cards */
 .workout-list {
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: var(--spacing-md);
     background: var(--bg-primary);
 }
 
 .month-group {
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
 }
 
 .month-header {
     font-size: 1.5rem;
     font-weight: 700;
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
     color: var(--text-primary);
     letter-spacing: -0.5px;
     padding: 0 var(--spacing-sm);
@@ -239,7 +239,7 @@ body {
     background: var(--bg-secondary);
     border-radius: var(--radius-lg);
     padding: var(--spacing-md);
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
     box-shadow: var(--shadow-card);
     border: 1px solid var(--border);
     transition: all var(--transition-fast);
@@ -577,7 +577,7 @@ body {
     background: var(--card-bg);
     border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
     border: 1px solid var(--card-border);
     box-shadow: var(--shadow-card);
 }
@@ -675,8 +675,8 @@ body {
     }
 
     .analytics-section {
-        padding: var(--spacing-sm);
-        margin-bottom: var(--spacing-sm);
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
     }
 
     .analytics-title {
@@ -685,16 +685,16 @@ body {
     }
 
     .calendar-container {
-        padding: var(--spacing-sm);
+        padding: var(--spacing-md);
     }
 
     .calendar-grid {
-        padding: var(--spacing-sm);
-        margin-bottom: var(--spacing-sm);
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
     }
 
     .calendar-legend {
-        padding: 4px;
+        padding: var(--spacing-sm);
         gap: var(--spacing-md);
     }
 
@@ -722,18 +722,18 @@ body {
     }
 
     .quick-actions {
-        padding: var(--spacing-sm);
-        gap: var(--spacing-xs);
+        padding: var(--spacing-md);
+        gap: var(--spacing-sm);
     }
 
     .month-header {
         font-size: 1.3rem;
-        margin-bottom: var(--spacing-sm);
+        margin-bottom: var(--spacing-md);
     }
 
     .workout-card {
-        padding: var(--spacing-sm);
-        margin-bottom: 6px;
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-sm);
     }
 
     .workout-date {
@@ -771,8 +771,8 @@ body {
 .calendar-grid {
     background: var(--bg-secondary);
     border-radius: var(--radius-lg);
-    padding: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
     border: 1px solid var(--border);
     box-shadow: var(--shadow-card);
 }
