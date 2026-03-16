@@ -151,8 +151,10 @@ export class CalendarView {
 
             chartHTML += `
                 <div class="chart-bar-container ${isCurrentMonth ? 'current' : ''}">
-                    <div class="chart-bar" style="height: ${percentage}%">
-                        <span class="bar-value">${data.count}</span>
+                    <div class="chart-content">
+                        <div class="chart-bar" style="height: ${percentage}%">
+                            <span class="bar-value">${data.count}</span>
+                        </div>
                     </div>
                     <div class="bar-label">${data.label}</div>
                 </div>
