@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Full Data Parser Test</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #1a1a1a; color: #fff; font-size: 12px; }
+        .stats { background: #3a3a3a; padding: 15px; border-radius: 8px; margin-bottom: 20px; position: sticky; top: 0; z-index: 100; }
+        .success { color: #50fa7b; }
+        .error { color: #ff5555; }
+        .warning { color: #f1fa8c; }
+        #results { display: grid; gap: 5px; }
+        .line { padding: 5px; background: #2a2a2a; border-radius: 3px; }
+        .line.fail { background: #3a1a1a; border-left: 3px solid #ff5555; }
+        .unique-exercises { margin-top: 20px; padding: 15px; background: #2a2a2a; border-radius: 8px; }
+        .exercise-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 10px; }
+        .exercise-item { padding: 8px; background: #3a3a3a; border-radius: 4px; }
+        .exercise-item .count { color: #8be9fd; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div id="stats" class="stats">Loading...</div>
+    <div id="unique" class="unique-exercises"></div>
+    <div id="results"></div>
+
+    <script type="module">
+        import { Parser } from './js/core/parser.js';
+
+        // Read 2025 data
+        const response2025 = await fetch('../records_2025.txt');
+        const data2025 = await response2025.text();
+
+        // Read 2026 data
+        const response2026 = await fetch('../records_2026.txt');
+        const data2026 = await response2026.text();
+
+        const allLines = [...data2025.split('\n'), ...data2026.split('\n')];
+
+        let totalLines = 0;
+        let successCount = 0;
+        let failCount = 0;
+        let skipCount = 0;
+        const failedLines = [];
+        const exerciseMap = new Map();
+
+        const resultsDiv = document.getElementById('results');
+
+        allLines.forEach(line => {
+            line = line.trim();
+
+            // Skip empty, separators, and dates
+            if (!line || line === '---' || line.match(/^\d{1,2}월\s*\d{1,2}일/)) {
+                skipCount++;
+                return;
+            }
+
+            totalLines++;
+            const result = Parser.parseExerciseLine(line);
+
+            if (result) {
+                successCount++;
+
+                // Track unique exercises
+                const name = result.name;
+                if (!exerciseMap.has(name)) {
+                    exerciseMap.set(name, { count: 0, type: result.type });
+                }
+                exerciseMap.get(name).count++;
+            } else {
+                failCount++;
+                failedLines.push(line);
+
+                const lineDiv = document.createElement('div');
+                lineDiv.className = 'line fail';
+                lineDiv.textContent = `✗ ${line}`;
+                resultsDiv.appendChild(lineDiv);
+            }
+        });
+
+        // Sort exercises by count
+        const exercises = Array.from(exerciseMap.entries())
+            .sort((a, b) => b[1].count - a[1].count);
+
+        // Display stats
+        document.getElementById('stats').innerHTML = `
+            <h2>Parsing Results</h2>
+            <div>Total Exercise Lines: ${totalLines}</div>
+            <div class="success">✓ Successfully Parsed: ${successCount} (${Math.round(successCount/totalLines*100)}%)</div>
+            <div class="error">✗ Failed to Parse: ${failCount} (${Math.round(failCount/totalLines*100)}%)</div>
+            <div class="warning">⊘ Skipped (dates, empty, separators): ${skipCount}</div>
+            <div style="margin-top: 10px;">Unique Exercises Found: ${exercises.length}</div>
+        `;
+
+        // Display unique exercises
+        document.getElementById('unique').innerHTML = `
+            <h2>Unique Exercises (${exercises.length})</h2>
+            <div class="exercise-list">
+                ${exercises.map(([name, data]) => `
+                    <div class="exercise-item">
+                        <div>${name}</div>
+                        <div class="count">${data.count} times · ${data.type}</div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+
+        if (failCount === 0) {
+            resultsDiv.innerHTML = '<div class="success" style="text-align: center; padding: 2rem; font-size: 1.2em;">🎉 All lines parsed successfully!</div>';
+        } else {
+            resultsDiv.insertAdjacentHTML('afterbegin', `<h3 class="error">Failed Lines (${failCount}):</h3>`);
+        }
+    </script>
+</body>
+</html>
