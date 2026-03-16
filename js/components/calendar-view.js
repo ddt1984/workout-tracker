@@ -127,7 +127,8 @@ export class CalendarView {
             // Show year only when it changes
             const showYear = prevYear !== year;
             const yearShort = String(year).slice(-2);
-            const label = showYear ? `'${yearShort}\n${month + 1}` : String(month + 1);
+            const monthNum = month + 1;
+            const label = showYear ? `${monthNum}\n'${yearShort}` : String(monthNum);
             prevYear = year;
 
             monthsData.push({
