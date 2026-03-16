@@ -75,20 +75,31 @@ export class HistoryView {
         try {
             State.setLoading(true);
 
-            // Load from GitHub (current year)
-            const year = new Date().getFullYear();
-            const { content, sha } = await GitHubAPI.getYearFile(year);
+            const currentYear = new Date().getFullYear();
+            const previousYear = currentYear - 1;
+
+            // Load current year
+            const { content, sha } = await GitHubAPI.getYearFile(currentYear);
             this.fileSha = sha;
+            const currentYearWorkouts = Parser.parseFile(content, currentYear);
+            State.setWorkoutsForYear(currentYear, currentYearWorkouts);
 
-            // Parse workouts
-            const workouts = Parser.parseFile(content, year);
-            State.setWorkoutsForYear(year, workouts);
+            // Load previous year for exercise database
+            try {
+                const prevData = await GitHubAPI.getYearFile(previousYear);
+                if (prevData.content) {
+                    const previousYearWorkouts = Parser.parseFile(prevData.content, previousYear);
+                    State.setWorkoutsForYear(previousYear, previousYearWorkouts);
+                }
+            } catch (prevError) {
+                console.log('Previous year data not available:', prevError);
+            }
 
-            // Cache workouts
-            Storage.setCachedWorkouts(workouts);
+            // Cache current year workouts
+            Storage.setCachedWorkouts(currentYearWorkouts);
 
-            // Render workout list
-            this.renderWorkoutList(workouts);
+            // Render current year workout list
+            this.renderWorkoutList(currentYearWorkouts);
 
             State.setLoading(false);
         } catch (error) {
