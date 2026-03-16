@@ -21,8 +21,8 @@ export const Parser = {
                 continue;
             }
 
-            // Check if line is a date
-            const dateMatch = line.match(/^(\d{1,2})월\s*(\d{1,2})일$/);
+            // Check if line is a date (allow optional time)
+            const dateMatch = line.match(/^(\d{1,2})월\s*(\d{1,2})일/);
             if (dateMatch) {
                 // Save previous workout if exists
                 if (currentWorkout && currentWorkout.exercises.length > 0) {
@@ -65,6 +65,11 @@ export const Parser = {
         // Remove trailing punctuation and whitespace (comma, semicolon, period, etc.)
         line = line.replace(/[\s,;.]+$/, '').trim();
 
+        // Skip lines with commas (complex multi-set format)
+        if (line.includes(',')) {
+            return null;
+        }
+
         // Pattern 1: Step mill - "스탭밀 75층"
         const stepmillMatch = line.match(/^(.+?)\s+(\d+)층$/);
         if (stepmillMatch) {
@@ -85,11 +90,31 @@ export const Parser = {
             };
         }
 
-        // Pattern 3: Weighted exercise - "레그프레스 120kg 12 x 4"
-        // Format: name weight reps x sets (sets is optional)
-        // Handle flexible whitespace around 'x'
+        // Pattern 3: Plank with seconds - "플랭크 60초 x 4"
+        const plankMatch = line.match(/^(.+?)\s+(\d+)초\s*x\s*(\d+)$/);
+        if (plankMatch) {
+            return {
+                type: 'walking', // Treat as time-based exercise
+                name: plankMatch[1].trim(),
+                minutes: Math.ceil(parseInt(plankMatch[2]) / 60) // Convert to minutes
+            };
+        }
 
-        // Try with 'x' separator and sets number: "12 x 4" or "12x4" or "12  x  4"
+        // Pattern 4: Complex format "덤벨 숄더 프레스 10kg x 2 12 x 4"
+        // Format: name Xkg x Y reps x sets (where Y is multiplier)
+        let complexMatch = line.match(/^(.+?)\s+(\d+(?:\.\d+)?)kg\s*x\s*(\d+)\s+(\d+)\s*x\s*(\d+(?:\.\d+)?)$/);
+        if (complexMatch) {
+            const weight = parseFloat(complexMatch[2]) * parseInt(complexMatch[3]); // Multiply
+            return {
+                type: 'weighted',
+                name: complexMatch[1].trim(),
+                weight: weight,
+                reps: parseInt(complexMatch[4]),
+                sets: parseFloat(complexMatch[5])
+            };
+        }
+
+        // Pattern 5: Simple weighted - "레그프레스 120kg 12 x 4"
         let weightedMatch = line.match(/^(.+?)\s+(\d+(?:\.\d+)?)kg\s+(\d+)\s*x\s+(\d+(?:\.\d+)?)$/);
         if (weightedMatch) {
             return {
@@ -101,7 +126,7 @@ export const Parser = {
             };
         }
 
-        // Try with 'x' but no sets number: "12 x" or "12x"
+        // Pattern 6: With 'x' but no sets number: "12 x"
         weightedMatch = line.match(/^(.+?)\s+(\d+(?:\.\d+)?)kg\s+(\d+)\s*x$/);
         if (weightedMatch) {
             return {
@@ -113,7 +138,7 @@ export const Parser = {
             };
         }
 
-        // Try without 'x' at all (just reps): "12"
+        // Pattern 7: Just reps: "레그프레스 120kg 12"
         weightedMatch = line.match(/^(.+?)\s+(\d+(?:\.\d+)?)kg\s+(\d+)$/);
         if (weightedMatch) {
             return {
@@ -122,6 +147,18 @@ export const Parser = {
                 weight: parseFloat(weightedMatch[2]),
                 reps: parseInt(weightedMatch[3]),
                 sets: null
+            };
+        }
+
+        // Pattern 8: No weight (bodyweight exercises like "카프 레이즈 10 x 4")
+        const bodyweightMatch = line.match(/^(.+?)\s+(\d+)\s*x\s*(\d+)$/);
+        if (bodyweightMatch) {
+            return {
+                type: 'weighted',
+                name: bodyweightMatch[1].trim(),
+                weight: 0, // Bodyweight
+                reps: parseInt(bodyweightMatch[2]),
+                sets: parseInt(bodyweightMatch[3])
             };
         }
 
