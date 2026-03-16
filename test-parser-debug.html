@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parser Debug Test</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #1a1a1a; color: #fff; }
+        .test { margin: 20px 0; padding: 15px; background: #2a2a2a; border-radius: 8px; }
+        .input { color: #4a9eff; margin-bottom: 10px; }
+        .output { color: #50fa7b; }
+        .error { color: #ff5555; }
+        pre { background: #000; padding: 10px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Parser Debug Test</h1>
+
+    <div class="test">
+        <h2>Test Cases:</h2>
+        <div id="results"></div>
+    </div>
+
+    <script type="module">
+        import { Parser } from './js/core/parser.js';
+
+        const testCases = [
+            '풀업머신 35kg 10 x 1,',
+            '풀업머신 35kg 10 x 1',
+            '이지바컬 15kg 12 x 4',
+            '스탭밀 75층',
+            '걷기 10분',
+            '레그프레스 120kg 12',
+            '레그프레스 120kg 12,',
+        ];
+
+        const resultsDiv = document.getElementById('results');
+
+        testCases.forEach(testLine => {
+            const result = Parser.parseExerciseLine(testLine);
+
+            const testDiv = document.createElement('div');
+            testDiv.className = 'test';
+
+            testDiv.innerHTML = `
+                <div class="input">Input: "${testLine}"</div>
+                <div class="${result ? 'output' : 'error'}">
+                    ${result ? `
+                        <strong>✓ Parsed:</strong>
+                        <pre>${JSON.stringify(result, null, 2)}</pre>
+                    ` : `
+                        <strong>✗ Failed to parse</strong>
+                    `}
+                </div>
+            `;
+
+            resultsDiv.appendChild(testDiv);
+        });
+    </script>
+</body>
+</html>

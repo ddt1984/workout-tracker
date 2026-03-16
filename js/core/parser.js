@@ -62,8 +62,11 @@ export const Parser = {
         line = line.trim();
         if (!line) return null;
 
+        // Remove trailing punctuation (comma, semicolon, period, etc.)
+        line = line.replace(/[,;.]+$/, '');
+
         // Pattern 1: Step mill - "스탭밀 75층"
-        const stepmillMatch = line.match(/^(.+?)\s+(\d+)층$/);
+        const stepmillMatch = line.match(/^(.+?)\s+(\d+)층/);
         if (stepmillMatch) {
             return {
                 type: 'stepmill',
@@ -73,7 +76,7 @@ export const Parser = {
         }
 
         // Pattern 2: Walking - "걷기 10분"
-        const walkingMatch = line.match(/^(.+?)\s+(\d+)분$/);
+        const walkingMatch = line.match(/^(.+?)\s+(\d+)분/);
         if (walkingMatch) {
             return {
                 type: 'walking',
@@ -84,7 +87,7 @@ export const Parser = {
 
         // Pattern 3: Weighted exercise - "레그프레스 120kg 12 x 4"
         // Format: name weight reps x sets (sets is optional)
-        const weightedMatch = line.match(/^(.+?)\s+(\d+(?:\.\d+)?)kg\s+(\d+)\s*x?\s*(\d*)$/);
+        const weightedMatch = line.match(/^(.+?)\s+(\d+(?:\.\d+)?)kg\s+(\d+)\s*x?\s*(\d*)/);
         if (weightedMatch) {
             const sets = weightedMatch[4] ? parseInt(weightedMatch[4]) : null;
             return {
