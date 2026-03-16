@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Data Parser Test</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #1a1a1a; color: #fff; }
+        .test { margin: 10px 0; padding: 10px; background: #2a2a2a; border-radius: 4px; }
+        .success { border-left: 4px solid #50fa7b; }
+        .error { border-left: 4px solid #ff5555; }
+        .input { color: #4a9eff; }
+        .output { color: #50fa7b; margin-top: 5px; font-size: 0.9em; }
+        pre { background: #000; padding: 5px; border-radius: 4px; overflow-x: auto; }
+        .stats { background: #3a3a3a; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Real Data Parser Test</h1>
+    <div id="stats" class="stats"></div>
+    <div id="results"></div>
+
+    <script type="module">
+        import { Parser } from './js/core/parser.js';
+
+        const testLines = [
+            '랫플다운 35kg 12 x',
+            '풀업머신 28kg 12 x',
+            '레그 익스텐션 40kg 12 x',
+            '리버스 플라이 20kg 12 x',
+            '체스트 플라이 45kg 12 x',
+            '레그프레스 120kg 12 x 4',
+            '덤벨 숄더 프레스 24kg 12 x 4',
+            '시티드 레그컬 40kg 12 x',
+            '스탭밀 75층',
+            '걷기 10분',
+            '스탭밀  70층',
+        ];
+
+        const resultsDiv = document.getElementById('results');
+        const statsDiv = document.getElementById('stats');
+
+        let successCount = 0;
+        let failCount = 0;
+
+        testLines.forEach(testLine => {
+            const result = Parser.parseExerciseLine(testLine);
+            const success = result !== null;
+
+            if (success) successCount++;
+            else failCount++;
+
+            const testDiv = document.createElement('div');
+            testDiv.className = `test ${success ? 'success' : 'error'}`;
+
+            testDiv.innerHTML = `
+                <div class="input">${success ? '✓' : '✗'} "${testLine}"</div>
+                ${result ? `
+                    <div class="output">
+                        → name: "${result.name}",
+                        ${result.type === 'weighted' ?
+                            `weight: ${result.weight}kg, reps: ${result.reps}, sets: ${result.sets || 'null'}` :
+                        result.type === 'stepmill' ?
+                            `floors: ${result.floors}층` :
+                            `minutes: ${result.minutes}분`
+                        }
+                    </div>
+                ` : `<div class="output" style="color: #ff5555;">Failed to parse</div>`}
+            `;
+
+            resultsDiv.appendChild(testDiv);
+        });
+
+        statsDiv.innerHTML = `
+            <h2>Results</h2>
+            <div>Total: ${testLines.length}</div>
+            <div style="color: #50fa7b;">Success: ${successCount}</div>
+            <div style="color: #ff5555;">Failed: ${failCount}</div>
+            <div>Success Rate: ${Math.round(successCount / testLines.length * 100)}%</div>
+        `;
+    </script>
+</body>
+</html>

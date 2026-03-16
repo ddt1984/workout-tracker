@@ -87,7 +87,8 @@ export const Parser = {
 
         // Pattern 3: Weighted exercise - "레그프레스 120kg 12 x 4"
         // Format: name weight reps x sets (sets is optional)
-        // Try with 'x' separator first
+
+        // Try with 'x' separator and sets number: "12 x 4"
         let weightedMatch = line.match(/^(.+?)\s+(\d+(?:\.\d+)?)kg\s+(\d+)\s+x\s+(\d+)$/);
         if (weightedMatch) {
             return {
@@ -99,7 +100,19 @@ export const Parser = {
             };
         }
 
-        // Try without sets (just reps)
+        // Try with 'x' but no sets number: "12 x" or "12 x "
+        weightedMatch = line.match(/^(.+?)\s+(\d+(?:\.\d+)?)kg\s+(\d+)\s+x$/);
+        if (weightedMatch) {
+            return {
+                type: 'weighted',
+                name: weightedMatch[1].trim(),
+                weight: parseFloat(weightedMatch[2]),
+                reps: parseInt(weightedMatch[3]),
+                sets: null
+            };
+        }
+
+        // Try without 'x' at all (just reps): "12"
         weightedMatch = line.match(/^(.+?)\s+(\d+(?:\.\d+)?)kg\s+(\d+)$/);
         if (weightedMatch) {
             return {
