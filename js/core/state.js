@@ -82,6 +82,8 @@ export const State = {
     buildExerciseDatabase() {
         const exerciseMap = new Map();
 
+        console.log('[State] Building exercise database from', this.workouts.length, 'workouts');
+
         // Process workouts (already sorted by date desc)
         // For each exercise, we keep the most recent values
         for (let i = 0; i < this.workouts.length; i++) {
@@ -116,6 +118,9 @@ export const State = {
         // Sort by frequency (most used first)
         this.exercises = Array.from(exerciseMap.values())
             .sort((a, b) => b.count - a.count);
+
+        console.log('[State] Found', this.exercises.length, 'unique exercises');
+        console.log('[State] Top 10:', this.exercises.slice(0, 10).map(e => `${e.name} (${e.count}x)`));
 
         this.update({ exercises: this.exercises });
     },
