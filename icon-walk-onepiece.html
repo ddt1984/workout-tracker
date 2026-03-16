@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>걷기 - 원피스 스타일</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            padding: 40px;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 30px;
+            color: #2C3E50;
+        }
+        svg {
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>걷기 - 원피스 스타일</h1>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+            <defs>
+                <!-- 그림자 -->
+                <ellipse id="shadow" cx="100" cy="185" rx="60" ry="8" fill="#000" opacity="0.15"/>
+
+                <!-- 땀 효과 -->
+                <g id="sweat">
+                    <path d="M 0 0 Q -2 3 0 6 Q 2 3 0 0" fill="#7EC8E3"/>
+                </g>
+            </defs>
+
+            <!-- 그림자 -->
+            <use href="#shadow"/>
+
+            <!-- 움직임 라인 (원피스 특유의) -->
+            <path d="M 20 80 Q 25 82 30 80" stroke="#95A5A6" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.4"/>
+            <path d="M 15 90 Q 22 92 28 90" stroke="#95A5A6" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.3"/>
+            <path d="M 18 100 Q 24 102 30 100" stroke="#95A5A6" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.2"/>
+
+            <!-- 오른쪽 다리 (뒤) - 과장된 동작 -->
+            <g>
+                <path d="M 110 115 Q 125 135 135 155" stroke="#2C3E50" stroke-width="5" fill="none" stroke-linecap="round"/>
+                <path d="M 110 115 Q 123 133 133 153" stroke="#3498DB" stroke-width="10" fill="none" stroke-linecap="round"/>
+                <!-- 신발 -->
+                <ellipse cx="136" cy="160" rx="14" ry="10" fill="#E74C3C" stroke="#2C3E50" stroke-width="3"/>
+                <ellipse cx="140" cy="160" rx="8" ry="6" fill="#C0392B"/>
+            </g>
+
+            <!-- 오른팔 (뒤) -->
+            <g>
+                <path d="M 115 65 Q 135 75 145 85" stroke="#2C3E50" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <path d="M 115 65 Q 133 74 143 83" stroke="#FBBF77" stroke-width="9" fill="none" stroke-linecap="round"/>
+                <!-- 주먹 -->
+                <circle cx="145" cy="85" r="7" fill="#FBBF77" stroke="#2C3E50" stroke-width="2.5"/>
+            </g>
+
+            <!-- 몸통 -->
+            <g>
+                <!-- 티셔츠 -->
+                <ellipse cx="100" cy="90" rx="28" ry="32" fill="#FF6B9D" stroke="#2C3E50" stroke-width="4"/>
+                <!-- 하이라이트 -->
+                <ellipse cx="88" cy="80" rx="8" ry="12" fill="#FF8DB3" opacity="0.6"/>
+                <!-- 셔츠 라인 -->
+                <path d="M 100 75 Q 100 90 100 105" stroke="#E84A7A" stroke-width="2" opacity="0.5"/>
+            </g>
+
+            <!-- 머리 -->
+            <g>
+                <!-- 얼굴 -->
+                <circle cx="100" cy="50" r="22" fill="#FBBF77" stroke="#2C3E50" stroke-width="4"/>
+
+                <!-- 눈 (원피스 스타일 - 크고 반짝이는) -->
+                <ellipse cx="92" cy="48" rx="6" ry="8" fill="#2C3E50"/>
+                <ellipse cx="108" cy="48" rx="6" ry="8" fill="#2C3E50"/>
+                <circle cx="94" cy="46" r="3" fill="#FFF"/>
+                <circle cx="110" cy="46" r="3" fill="#FFF"/>
+                <circle cx="95" cy="47" r="1.5" fill="#FFF"/>
+                <circle cx="111" cy="47" r="1.5" fill="#FFF"/>
+
+                <!-- 입 (활짝 웃는) -->
+                <path d="M 90 58 Q 100 65 110 58" stroke="#2C3E50" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <path d="M 92 58 Q 100 63 108 58" fill="#FFF" opacity="0.8"/>
+
+                <!-- 홍조 -->
+                <ellipse cx="80" cy="52" rx="5" ry="3" fill="#FF8787" opacity="0.5"/>
+                <ellipse cx="120" cy="52" rx="5" ry="3" fill="#FF8787" opacity="0.5"/>
+
+                <!-- 머리카락 (원피스 스타일) -->
+                <path d="M 85 32 Q 80 28 78 35 Q 76 40 78 45" stroke="#2C3E50" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+                <path d="M 90 30 Q 88 25 85 28 Q 83 32 84 38" stroke="#2C3E50" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+                <path d="M 100 28 Q 100 23 98 26 Q 96 30 97 35" stroke="#2C3E50" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+                <path d="M 110 30 Q 112 25 115 28 Q 117 32 116 38" stroke="#2C3E50" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+                <path d="M 115 32 Q 120 28 122 35 Q 124 40 122 45" stroke="#2C3E50" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+            </g>
+
+            <!-- 왼팔 (앞) - 크게 휘두르는 -->
+            <g>
+                <path d="M 85 65 Q 55 80 45 105" stroke="#2C3E50" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <path d="M 85 65 Q 57 79 47 103" stroke="#FBBF77" stroke-width="10" fill="none" stroke-linecap="round"/>
+                <!-- 주먹 -->
+                <ellipse cx="45" cy="107" rx="8" ry="9" fill="#FBBF77" stroke="#2C3E50" stroke-width="2.5"/>
+                <line x1="42" y1="105" x2="42" y2="109" stroke="#2C3E50" stroke-width="1.5"/>
+                <line x1="48" y1="105" x2="48" y2="109" stroke="#2C3E50" stroke-width="1.5"/>
+            </g>
+
+            <!-- 왼쪽 다리 (앞) - 크게 올린 -->
+            <g>
+                <path d="M 95 115 Q 80 140 70 160" stroke="#2C3E50" stroke-width="5" fill="none" stroke-linecap="round"/>
+                <path d="M 95 115 Q 82 138 72 158" stroke="#3498DB" stroke-width="12" fill="none" stroke-linecap="round"/>
+                <!-- 신발 -->
+                <ellipse cx="68" cy="165" rx="16" ry="11" fill="#E74C3C" stroke="#2C3E50" stroke-width="3"/>
+                <ellipse cx="72" cy="165" rx="10" ry="7" fill="#C0392B"/>
+                <!-- 신발 디테일 -->
+                <path d="M 60 165 Q 65 162 70 165" stroke="#FFF" stroke-width="2" fill="none"/>
+            </g>
+
+            <!-- 땀 방울 (원피스 스타일) -->
+            <use href="#sweat" x="125" y="45"/>
+            <use href="#sweat" x="70" y="50" transform="scale(0.8)"/>
+
+            <!-- 효과선 (집중선) -->
+            <line x1="180" y1="95" x2="160" y2="100" stroke="#FFC312" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+            <line x1="175" y1="105" x2="155" y2="108" stroke="#FFC312" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+            <line x1="178" y1="85" x2="160" y2="88" stroke="#FFC312" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+        </svg>
+        <p style="color: #7F8C8D; margin-top: 20px;">원피스 스타일 - 역동적인 걷기 동작</p>
+    </div>
+</body>
+</html>

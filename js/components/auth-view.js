@@ -7,6 +7,20 @@ export class AuthView {
     constructor(container) {
         this.container = container;
         this.deviceFlowData = null;
+        this.eventListeners = [];
+    }
+
+    cleanup() {
+        // Remove all event listeners
+        this.eventListeners.forEach(({ element, event, handler }) => {
+            element.removeEventListener(event, handler);
+        });
+        this.eventListeners = [];
+    }
+
+    addEventListener(element, event, handler) {
+        element.addEventListener(event, handler);
+        this.eventListeners.push({ element, event, handler });
     }
 
     async render() {
@@ -77,15 +91,15 @@ export class AuthView {
             </div>
         `;
 
-        document.getElementById('token-login-btn').addEventListener('click', () => {
-            this.loginWithToken();
-        });
+        const loginHandler = () => this.loginWithToken();
+        this.addEventListener(document.getElementById('token-login-btn'), 'click', loginHandler);
 
-        document.getElementById('token-input').addEventListener('keypress', (e) => {
+        const keypressHandler = (e) => {
             if (e.key === 'Enter') {
                 this.loginWithToken();
             }
-        });
+        };
+        this.addEventListener(document.getElementById('token-input'), 'keypress', keypressHandler);
     }
 
     async loginWithToken() {
@@ -154,9 +168,8 @@ export class AuthView {
                 </div>
             `;
 
-            document.getElementById('retry-btn').addEventListener('click', () => {
-                this.render();
-            });
+            const retryHandler = () => this.render();
+            this.addEventListener(document.getElementById('retry-btn'), 'click', retryHandler);
         }
     }
 
@@ -242,9 +255,8 @@ export class AuthView {
                 </div>
             `;
 
-            document.getElementById('retry-btn').addEventListener('click', () => {
-                this.render();
-            });
+            const retryHandler = () => this.render();
+            this.addEventListener(document.getElementById('retry-btn'), 'click', retryHandler);
         }
     }
 

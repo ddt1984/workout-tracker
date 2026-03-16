@@ -11,6 +11,20 @@ export class EditorView {
         this.workout = null;
         this.exercises = [];
         this.showingPicker = false;
+        this.eventListeners = [];
+    }
+
+    cleanup() {
+        // Remove all event listeners
+        this.eventListeners.forEach(({ element, event, handler }) => {
+            element.removeEventListener(event, handler);
+        });
+        this.eventListeners = [];
+    }
+
+    addEventListener(element, event, handler) {
+        element.addEventListener(event, handler);
+        this.eventListeners.push({ element, event, handler });
     }
 
     async render() {
@@ -137,35 +151,34 @@ export class EditorView {
 
     setupEventListeners() {
         // Back button
-        document.getElementById('back-btn').addEventListener('click', () => {
-            State.setView('history');
-        });
+        const backHandler = () => State.setView('history');
+        this.addEventListener(document.getElementById('back-btn'), 'click', backHandler);
 
         // Save button
-        document.getElementById('save-btn').addEventListener('click', () => {
-            this.saveWorkout();
-        });
+        const saveHandler = () => this.saveWorkout();
+        this.addEventListener(document.getElementById('save-btn'), 'click', saveHandler);
 
         // Add exercise button
-        document.getElementById('add-exercise-btn').addEventListener('click', () => {
-            this.showExercisePicker();
-        });
+        const addExerciseHandler = () => this.showExercisePicker();
+        this.addEventListener(document.getElementById('add-exercise-btn'), 'click', addExerciseHandler);
 
         // Exercise control buttons (event delegation)
-        document.getElementById('exercise-cards').addEventListener('click', (e) => {
+        const exerciseCardsHandler = (e) => {
             const action = e.target.dataset.action;
             const index = parseInt(e.target.dataset.index);
 
             if (action && index >= 0) {
                 this.handleExerciseAction(action, index);
             }
-        });
+        };
+        this.addEventListener(document.getElementById('exercise-cards'), 'click', exerciseCardsHandler);
 
         // Date change
-        document.getElementById('workout-date').addEventListener('change', (e) => {
+        const dateChangeHandler = (e) => {
             this.workout.date = e.target.value;
             this.workout.displayDate = DateUtils.toKoreanDate(e.target.value);
-        });
+        };
+        this.addEventListener(document.getElementById('workout-date'), 'change', dateChangeHandler);
     }
 
     handleExerciseAction(action, index) {
@@ -174,46 +187,72 @@ export class EditorView {
         switch (action) {
             case 'remove':
                 this.exercises.splice(index, 1);
-                break;
+                // Full re-render needed for remove
+                document.getElementById('exercise-cards').innerHTML = this.renderExerciseCards();
+                return;
 
             case 'inc-weight':
                 exercise.weight += 5;
+                this.updateExerciseValue(index, 'weight', `${exercise.weight}kg`);
                 break;
             case 'dec-weight':
                 exercise.weight = Math.max(0, exercise.weight - 5);
+                this.updateExerciseValue(index, 'weight', `${exercise.weight}kg`);
                 break;
 
             case 'inc-reps':
                 exercise.reps += 1;
+                this.updateExerciseValue(index, 'reps', `${exercise.reps} reps`);
                 break;
             case 'dec-reps':
                 exercise.reps = Math.max(1, exercise.reps - 1);
+                this.updateExerciseValue(index, 'reps', `${exercise.reps} reps`);
                 break;
 
             case 'inc-sets':
                 exercise.sets = (exercise.sets || 0) + 1;
+                this.updateExerciseValue(index, 'sets', `${exercise.sets} sets`);
                 break;
             case 'dec-sets':
                 exercise.sets = Math.max(0, (exercise.sets || 0) - 1);
+                this.updateExerciseValue(index, 'sets', `${exercise.sets} sets`);
                 break;
 
             case 'inc-floors':
-                exercise.floors += 10;
+                exercise.floors += 5;
+                this.updateExerciseValue(index, 'floors', `${exercise.floors} floors`);
                 break;
             case 'dec-floors':
-                exercise.floors = Math.max(0, exercise.floors - 10);
+                exercise.floors = Math.max(0, exercise.floors - 5);
+                this.updateExerciseValue(index, 'floors', `${exercise.floors} floors`);
                 break;
 
             case 'inc-minutes':
                 exercise.minutes += 5;
+                this.updateExerciseValue(index, 'minutes', `${exercise.minutes} min`);
                 break;
             case 'dec-minutes':
                 exercise.minutes = Math.max(0, exercise.minutes - 5);
+                this.updateExerciseValue(index, 'minutes', `${exercise.minutes} min`);
                 break;
         }
+    }
 
-        // Re-render exercise cards
-        document.getElementById('exercise-cards').innerHTML = this.renderExerciseCards();
+    updateExerciseValue(index, field, displayValue) {
+        // Find the specific control value element and update it
+        const card = document.querySelector(`[data-index="${index}"]`);
+        if (card) {
+            const controls = card.querySelectorAll('.control-row');
+            controls.forEach(row => {
+                const btn = row.querySelector(`[data-action*="${field}"]`);
+                if (btn) {
+                    const valueEl = row.querySelector('.control-value');
+                    if (valueEl) {
+                        valueEl.textContent = displayValue;
+                    }
+                }
+            });
+        }
     }
 
     showExercisePicker() {
@@ -291,21 +330,21 @@ export class EditorView {
         this.showingPicker = true;
 
         // Setup picker event listeners
-        document.getElementById('picker-back-btn').addEventListener('click', () => {
-            this.hideExercisePicker();
-        });
+        const pickerBackHandler = () => this.hideExercisePicker();
+        this.addEventListener(document.getElementById('picker-back-btn'), 'click', pickerBackHandler);
 
         // Exercise selection
         document.querySelectorAll('.exercise-option').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            const exerciseOptionHandler = (e) => {
                 const exerciseData = JSON.parse(e.currentTarget.dataset.exercise);
                 this.addExercise(exerciseData);
-            });
+            };
+            this.addEventListener(btn, 'click', exerciseOptionHandler);
         });
 
         // Cardio buttons
         document.querySelectorAll('.cardio-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            const cardioHandler = (e) => {
                 const type = e.currentTarget.dataset.cardio;
                 if (type === 'stepmill') {
                     this.addExercise({
@@ -320,23 +359,21 @@ export class EditorView {
                         lastMinutes: 10
                     });
                 }
-            });
+            };
+            this.addEventListener(btn, 'click', cardioHandler);
         });
 
         // Search functionality
         const searchInput = document.getElementById('exercise-search');
-        searchInput.addEventListener('input', (e) => {
-            this.filterExercises(e.target.value);
-        });
+        const searchHandler = (e) => this.filterExercises(e.target.value);
+        this.addEventListener(searchInput, 'input', searchHandler);
 
         // Add new exercise buttons
-        document.getElementById('add-weighted-btn').addEventListener('click', () => {
-            this.addNewExercise('weighted');
-        });
+        const addWeightedHandler = () => this.addNewExercise('weighted');
+        this.addEventListener(document.getElementById('add-weighted-btn'), 'click', addWeightedHandler);
 
-        document.getElementById('add-cardio-btn').addEventListener('click', () => {
-            this.addNewExercise('cardio');
-        });
+        const addCardioHandler = () => this.addNewExercise('cardio');
+        this.addEventListener(document.getElementById('add-cardio-btn'), 'click', addCardioHandler);
     }
 
     addNewExercise(type) {

@@ -82,35 +82,36 @@ export const State = {
     buildExerciseDatabase() {
         const exerciseMap = new Map();
 
-        this.workouts.forEach(workout => {
-            workout.exercises.forEach(exercise => {
+        // Process workouts (already sorted by date desc)
+        // For each exercise, we keep the most recent values
+        for (let i = 0; i < this.workouts.length; i++) {
+            const workout = this.workouts[i];
+
+            for (let j = 0; j < workout.exercises.length; j++) {
+                const exercise = workout.exercises[j];
                 const name = exercise.name;
                 const existing = exerciseMap.get(name);
 
                 if (existing) {
                     existing.count++;
-                    existing.lastUsed = workout.date > existing.lastUsed ? workout.date : existing.lastUsed;
-                    // Track last values
-                    if (exercise.weight) existing.lastWeight = exercise.weight;
-                    if (exercise.reps) existing.lastReps = exercise.reps;
-                    if (exercise.sets) existing.lastSets = exercise.sets;
-                    if (exercise.floors) existing.lastFloors = exercise.floors;
-                    if (exercise.minutes) existing.lastMinutes = exercise.minutes;
+                    // Since workouts are sorted desc, first occurrence has latest values
+                    // No need to update last values after first occurrence
                 } else {
+                    // First time seeing this exercise - store its values
                     exerciseMap.set(name, {
                         name,
                         type: exercise.type,
                         count: 1,
                         lastUsed: workout.date,
-                        lastWeight: exercise.weight || null,
-                        lastReps: exercise.reps || null,
-                        lastSets: exercise.sets || null,
-                        lastFloors: exercise.floors || null,
-                        lastMinutes: exercise.minutes || null
+                        lastWeight: exercise.weight ?? null,
+                        lastReps: exercise.reps ?? null,
+                        lastSets: exercise.sets ?? null,
+                        lastFloors: exercise.floors ?? null,
+                        lastMinutes: exercise.minutes ?? null
                     });
                 }
-            });
-        });
+            }
+        }
 
         // Sort by frequency (most used first)
         this.exercises = Array.from(exerciseMap.values())

@@ -35,6 +35,11 @@ class App {
     navigateTo(viewName) {
         this.currentViewName = viewName;
 
+        // Cleanup previous view
+        if (this.currentView && typeof this.currentView.cleanup === 'function') {
+            this.currentView.cleanup();
+        }
+
         // Clear container
         this.container.innerHTML = '';
 

@@ -9,6 +9,20 @@ export class HistoryView {
     constructor(container) {
         this.container = container;
         this.fileSha = null;
+        this.eventListeners = [];
+    }
+
+    cleanup() {
+        // Remove all event listeners
+        this.eventListeners.forEach(({ element, event, handler }) => {
+            element.removeEventListener(event, handler);
+        });
+        this.eventListeners = [];
+    }
+
+    addEventListener(element, event, handler) {
+        element.addEventListener(event, handler);
+        this.eventListeners.push({ element, event, handler });
     }
 
     async render() {
@@ -122,9 +136,10 @@ export class HistoryView {
             monthWorkouts.forEach((workout, index) => {
                 const relativeTime = DateUtils.getRelativeTime(workout.date);
                 const exerciseSummary = this.getExerciseSummary(workout.exercises);
+                const workoutIndex = workouts.indexOf(workout);
 
                 html += `
-                    <div class="workout-card" data-workout-index="${workouts.indexOf(workout)}">
+                    <div class="workout-card" data-workout-index="${workoutIndex}">
                         <div class="workout-header">
                             <div class="workout-date">
                                 ${workout.displayDate}
@@ -137,10 +152,10 @@ export class HistoryView {
                             ${exerciseSummary}
                         </div>
                         <div class="workout-actions">
-                            <button class="btn btn-secondary btn-copy" data-workout-index="${workouts.indexOf(workout)}">
+                            <button class="btn btn-secondary btn-copy" data-workout-index="${workoutIndex}">
                                 📋 Copy
                             </button>
-                            <button class="btn btn-secondary btn-edit" data-workout-index="${workouts.indexOf(workout)}">
+                            <button class="btn btn-secondary btn-edit" data-workout-index="${workoutIndex}">
                                 ✏️ Edit
                             </button>
                         </div>
@@ -157,17 +172,19 @@ export class HistoryView {
 
         // Add event listeners for copy and edit buttons
         this.container.querySelectorAll('.btn-copy').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            const copyHandler = (e) => {
                 const index = parseInt(e.target.dataset.workoutIndex);
                 this.copyWorkout(workouts[index]);
-            });
+            };
+            this.addEventListener(btn, 'click', copyHandler);
         });
 
         this.container.querySelectorAll('.btn-edit').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            const editHandler = (e) => {
                 const index = parseInt(e.target.dataset.workoutIndex);
                 this.editWorkout(workouts[index]);
-            });
+            };
+            this.addEventListener(btn, 'click', editHandler);
         });
     }
 
@@ -187,35 +204,34 @@ export class HistoryView {
 
     setupEventListeners() {
         // Tab navigation
-        document.getElementById('calendar-tab').addEventListener('click', () => {
-            State.setView('calendar');
-        });
+        const calendarTabHandler = () => State.setView('calendar');
+        this.addEventListener(document.getElementById('calendar-tab'), 'click', calendarTabHandler);
 
         // Copy latest workout
-        document.getElementById('copy-latest-btn').addEventListener('click', () => {
+        const copyLatestHandler = () => {
             const latest = State.getLatestWorkout();
             if (latest) {
                 this.copyWorkout(latest);
             } else {
                 this.showMessage('No workouts to copy', 'error');
             }
-        });
+        };
+        this.addEventListener(document.getElementById('copy-latest-btn'), 'click', copyLatestHandler);
 
         // New workout
-        document.getElementById('new-workout-btn').addEventListener('click', () => {
+        const newWorkoutHandler = () => {
             State.update({ editingWorkout: null });
             State.setView('editor');
-        });
+        };
+        this.addEventListener(document.getElementById('new-workout-btn'), 'click', newWorkoutHandler);
 
         // Refresh
-        document.getElementById('refresh-btn').addEventListener('click', () => {
-            this.loadWorkouts();
-        });
+        const refreshHandler = () => this.loadWorkouts();
+        this.addEventListener(document.getElementById('refresh-btn'), 'click', refreshHandler);
 
         // Settings
-        document.getElementById('settings-btn').addEventListener('click', () => {
-            this.showSettings();
-        });
+        const settingsHandler = () => this.showSettings();
+        this.addEventListener(document.getElementById('settings-btn'), 'click', settingsHandler);
     }
 
     copyWorkout(workout) {

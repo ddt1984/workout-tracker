@@ -9,6 +9,20 @@ export class CalendarView {
         this.container = container;
         this.currentYear = new Date().getFullYear();
         this.currentMonth = new Date().getMonth(); // 0-11
+        this.eventListeners = [];
+    }
+
+    cleanup() {
+        // Remove all event listeners
+        this.eventListeners.forEach(({ element, event, handler }) => {
+            element.removeEventListener(event, handler);
+        });
+        this.eventListeners = [];
+    }
+
+    addEventListener(element, event, handler) {
+        element.addEventListener(event, handler);
+        this.eventListeners.push({ element, event, handler });
     }
 
     async render() {
@@ -246,10 +260,11 @@ export class CalendarView {
 
         // Add click handlers for days with workouts
         document.querySelectorAll('.calendar-day.workout-day').forEach(dayEl => {
-            dayEl.addEventListener('click', () => {
+            const dayClickHandler = () => {
                 const day = parseInt(dayEl.dataset.day);
                 this.showWorkoutDetails(day);
-            });
+            };
+            this.addEventListener(dayEl, 'click', dayClickHandler);
         });
     }
 
@@ -301,38 +316,40 @@ export class CalendarView {
 
     setupEventListeners() {
         // Tab navigation
-        document.getElementById('history-tab').addEventListener('click', () => {
-            State.setView('history');
-        });
+        const historyTabHandler = () => State.setView('history');
+        this.addEventListener(document.getElementById('history-tab'), 'click', historyTabHandler);
 
         // Month navigation
-        document.getElementById('prev-month').addEventListener('click', () => {
+        const prevMonthHandler = () => {
             this.currentMonth--;
             if (this.currentMonth < 0) {
                 this.currentMonth = 11;
                 this.currentYear--;
             }
             this.renderCalendar();
-        });
+        };
+        this.addEventListener(document.getElementById('prev-month'), 'click', prevMonthHandler);
 
-        document.getElementById('next-month').addEventListener('click', () => {
+        const nextMonthHandler = () => {
             this.currentMonth++;
             if (this.currentMonth > 11) {
                 this.currentMonth = 0;
                 this.currentYear++;
             }
             this.renderCalendar();
-        });
+        };
+        this.addEventListener(document.getElementById('next-month'), 'click', nextMonthHandler);
 
         // Refresh
-        document.getElementById('refresh-btn').addEventListener('click', () => {
+        const refreshHandler = () => {
             // Reload chart and calendar
             this.renderMonthlyChart();
             this.renderCalendar();
-        });
+        };
+        this.addEventListener(document.getElementById('refresh-btn'), 'click', refreshHandler);
 
         // Settings
-        document.getElementById('settings-btn').addEventListener('click', () => {
+        const settingsHandler = () => {
             if (confirm('Logout?')) {
                 localStorage.clear();
                 State.update({
@@ -342,6 +359,7 @@ export class CalendarView {
                 });
                 State.setView('auth');
             }
-        });
+        };
+        this.addEventListener(document.getElementById('settings-btn'), 'click', settingsHandler);
     }
 }
