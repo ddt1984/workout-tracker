@@ -262,8 +262,8 @@ export class EditorView {
         const weighted = exercises.filter(ex => ex.type === 'weighted');
         const cardio = exercises.filter(ex => ex.type === 'stepmill' || ex.type === 'walking');
 
-        // Show top 20 weighted exercises
-        const commonExercises = weighted.slice(0, 20);
+        // Show top 50 weighted exercises
+        const commonExercises = weighted.slice(0, 50);
 
         const pickerHTML = `
             <div class="exercise-picker">
