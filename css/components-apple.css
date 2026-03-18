@@ -922,10 +922,10 @@ body::before {
 }
 
 .chart-header {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 700;
     font-family: var(--font-display);
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -935,15 +935,15 @@ body::before {
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
-    padding: var(--spacing-sm);
+    padding: var(--spacing-md);
     box-shadow: var(--shadow-sm);
 }
 
 .chart-bars {
     display: flex;
     align-items: flex-end;
-    gap: 3px;
-    height: 80px;
+    gap: 4px;
+    height: 140px;
     padding: 0;
     width: 100%;
     overflow-x: auto;
@@ -972,12 +972,12 @@ body::before {
     background: var(--gradient-primary);
     border-radius: var(--radius-sm) var(--radius-sm) 0 0;
     position: relative;
-    min-height: 20px;
+    min-height: 30px;
     transition: all var(--transition-fast);
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding-top: 2px;
+    padding-top: var(--spacing-xs);
     cursor: default;
 }
 
@@ -990,22 +990,22 @@ body::before {
 }
 
 .bar-value {
-    font-size: 0.7rem;
+    font-size: 0.85rem;
     font-weight: 700;
     color: white;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .bar-label {
-    margin-top: 3px;
-    font-size: 0.65rem;
+    margin-top: var(--spacing-xs);
+    font-size: 0.7rem;
     font-weight: 600;
     color: var(--text-tertiary);
     text-align: center;
     white-space: pre-line;
-    line-height: 1.1;
+    line-height: 1.2;
     height: auto;
-    min-height: 1.8em;
+    min-height: 2em;
 }
 
 .chart-bar-container.current .bar-label {
@@ -1053,35 +1053,35 @@ body::before {
     }
 
     .calendar-section {
-        padding: var(--spacing-sm);
+        padding: var(--spacing-xs);
     }
 
     .calendar-nav {
-        margin-bottom: var(--spacing-xs);
+        margin-bottom: 4px;
     }
 
     .nav-btn {
-        width: 28px;
-        height: 28px;
-        font-size: 1.3rem;
+        width: 24px;
+        height: 24px;
+        font-size: 1.1rem;
     }
 
     .month-title {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
 
 
     .chart-bars {
-        gap: 2px;
-        height: 70px;
+        gap: 3px;
+        height: 110px;
     }
 
     .chart-bar-container {
-        min-width: 16px;
+        min-width: 18px;
     }
 
     .chart-bar {
-        min-height: 15px;
+        min-height: 22px;
     }
 
     .bar-label {
@@ -1127,17 +1127,22 @@ body::before {
     }
 
     .calendar-day {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
     }
 
     .weekday {
-        font-size: 0.6rem;
-        padding: 2px 0;
+        font-size: 0.55rem;
+        padding: 1px 0;
     }
 
     .workout-indicator {
-        font-size: 0.55rem;
-        padding: 1px 3px;
+        font-size: 0.5rem;
+        padding: 1px 2px;
+    }
+
+    .calendar-days,
+    .calendar-weekdays {
+        gap: 2px;
     }
 
     .btn {
@@ -1188,12 +1193,12 @@ body::before {
     }
 }
 
-/* Calendar Section - Super Compact */
+/* Calendar Section - Ultra Compact */
 .calendar-section {
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm);
     box-shadow: var(--shadow-sm);
 }
 
@@ -1201,17 +1206,17 @@ body::before {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: var(--spacing-sm);
-    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
+    gap: var(--spacing-xs);
 }
 
 .nav-btn {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     border-radius: var(--radius-sm);
     background: var(--bg-tertiary);
     color: var(--text-primary);
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 300;
     display: flex;
     align-items: center;
@@ -1234,7 +1239,7 @@ body::before {
 }
 
 .month-title {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 700;
     font-family: var(--font-display);
     text-align: center;
@@ -1253,24 +1258,24 @@ body::before {
 .calendar-weekdays {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 3px;
-    margin-bottom: 3px;
+    gap: 2px;
+    margin-bottom: 2px;
 }
 
 .weekday {
     text-align: center;
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     font-weight: 600;
     color: var(--text-tertiary);
-    padding: 4px 0;
+    padding: 2px 0;
     text-transform: uppercase;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.2px;
 }
 
 .calendar-days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 3px;
+    gap: 2px;
 }
 
 .calendar-day {
@@ -1279,12 +1284,12 @@ body::before {
     align-items: center;
     justify-content: center;
     background: var(--bg-tertiary);
-    border-radius: var(--radius-sm);
+    border-radius: 4px;
     position: relative;
     transition: all var(--transition-fast);
     border: 1px solid transparent;
     cursor: default;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: var(--text-secondary);
 }
