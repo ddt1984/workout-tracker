@@ -756,17 +756,18 @@ body::before {
 }
 
 /* Exercise Picker - iOS Bottom Sheet Style */
+/* Exercise Picker - Clean Modern Design */
 .exercise-picker {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: var(--bg-primary);
+    background: #0d1421;
     z-index: 200;
     display: flex;
     flex-direction: column;
-    animation: slideUp 0.3s var(--spring);
+    animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes slideUp {
@@ -779,139 +780,214 @@ body::before {
 }
 
 .picker-header {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: var(--blur-md);
-    -webkit-backdrop-filter: var(--blur-md);
-    padding: var(--spacing-lg);
-    border-bottom: 1px solid var(--divider);
+    background: #0d1421;
+    padding: var(--spacing-lg) var(--spacing-md);
+    border-bottom: 1px solid #1e2a44;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: var(--spacing-md);
 }
 
-.picker-header h2 {
+.picker-back {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    background: #1e2a44;
+    border: 1px solid #2a3650;
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.picker-back:hover {
+    background: #2a3650;
+    transform: scale(1.05);
+}
+
+.picker-back:active {
+    transform: scale(0.95);
+}
+
+.picker-title {
+    flex: 1;
     font-size: 1.3rem;
     font-weight: 700;
-    letter-spacing: -0.3px;
+    font-family: var(--font-display);
+    color: #ffffff;
+    letter-spacing: -0.5px;
 }
 
 .picker-content {
     flex: 1;
     overflow-y: auto;
-    padding: var(--spacing-lg);
-}
-
-.search-box {
-    background: var(--bg-secondary);
     padding: var(--spacing-md);
-    border-radius: var(--radius-lg);
-    margin-bottom: var(--spacing-xl);
-    border: 1px solid var(--border);
-}
-
-.search-box input {
-    background: var(--bg-tertiary);
-    padding: var(--spacing-md);
-    border-radius: var(--radius-md);
+    max-width: 600px;
+    margin: 0 auto;
     width: 100%;
-    color: var(--text-primary);
-    font-size: 1rem;
 }
 
-.picker-section {
-    margin-bottom: var(--spacing-2xl);
-}
-
-.section-title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text-tertiary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+/* Quick Add Section */
+.picker-quick-section {
     margin-bottom: var(--spacing-lg);
 }
 
-.exercise-grid {
+.quick-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-md);
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-sm);
 }
 
-.exercise-option {
-    background: var(--card-bg);
-    border-radius: var(--radius-lg);
+.quick-btn {
+    background: #1e2a44;
+    border: 1px solid #2a3650;
+    border-radius: var(--radius-md);
     padding: var(--spacing-lg);
-    min-height: 100px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    box-shadow: var(--shadow-card);
-    border: 2px solid var(--card-border);
-    transition: all var(--transition-normal);
-    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffffff;
     cursor: pointer;
-    position: relative;
+    transition: all var(--transition-fast);
+}
+
+.quick-btn:hover {
+    background: #2a3650;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.quick-btn:active {
+    transform: translateY(0);
+}
+
+/* Picker Section */
+.picker-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.section-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    font-family: var(--font-display);
+    color: #6b7a99;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: var(--spacing-sm);
+    padding-left: var(--spacing-xs);
+}
+
+/* Exercise List */
+.exercise-list {
+    background: #141b2e;
+    border: 1px solid #1e2a44;
+    border-radius: var(--radius-md);
     overflow: hidden;
 }
 
-.exercise-option::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--gradient-primary);
-    opacity: 0;
-    transition: opacity var(--transition-normal);
-}
-
-.exercise-option:hover {
-    transform: translateY(-4px) scale(1.03);
-    box-shadow: var(--shadow-lg), var(--card-glow);
-    border-color: var(--accent);
-}
-
-.exercise-option:hover::before {
-    opacity: 0.1;
-}
-
-.exercise-option:active {
-    transform: translateY(-2px) scale(0.98);
-    box-shadow: var(--shadow-md);
-}
-
-.exercise-option-name {
-    font-weight: 700;
-    font-size: 1.05rem;
-    margin-bottom: var(--spacing-xs);
-    color: var(--text-primary);
-    letter-spacing: -0.2px;
-}
-
-.exercise-option-count {
-    font-size: 0.85rem;
-    color: var(--text-tertiary);
-    font-weight: 600;
-}
-
-.cardio-buttons {
+.exercise-item {
     display: flex;
-    gap: var(--spacing-md);
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #1e2a44;
+    width: 100%;
+    cursor: pointer;
+    transition: all var(--transition-fast);
 }
 
-.cardio-btn {
-    flex: 1;
-    background: var(--bg-secondary);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-    min-height: 70px;
-    font-weight: 700;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-card);
+.exercise-item:last-child {
+    border-bottom: none;
 }
 
-.cardio-btn:active {
-    transform: scale(0.95);
+.exercise-item:hover {
+    background: #1e2a44;
+}
+
+.exercise-item:active {
+    background: #232f48;
+}
+
+.exercise-item-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: left;
+}
+
+.exercise-item-count {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #6b7a99;
+}
+
+/* New Exercise Form */
+.new-exercise-form {
+    background: #141b2e;
+    border: 1px solid #1e2a44;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+}
+
+.new-exercise-input {
+    width: 100%;
+    background: #1e2a44;
+    border: 1px solid #2a3650;
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-md);
+    color: #ffffff;
+    font-size: 1rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.new-exercise-input::placeholder {
+    color: #6b7a99;
+}
+
+.new-exercise-input:focus {
+    outline: none;
+    border-color: #5b8ff9;
+}
+
+.new-exercise-btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-sm);
+}
+
+.new-exercise-type-btn {
+    background: #1e2a44;
+    border: 1px solid #2a3650;
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.new-exercise-type-btn:hover {
+    background: #2a3650;
+    border-color: #5b8ff9;
+}
+
+.new-exercise-type-btn:active {
+    background: #232f48;
+    transform: scale(0.98);
+}
+
+.type-icon {
+    font-size: 1.2rem;
 }
 
 /* Calendar View - Compact Design */

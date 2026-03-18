@@ -278,67 +278,63 @@ export class EditorView {
 
     showExercisePicker() {
         const exercises = State.exercises;
-
-        // Split exercises by type
         const weighted = exercises.filter(ex => ex.type === 'weighted');
-        const cardio = exercises.filter(ex => ex.type === 'stepmill' || ex.type === 'walking');
 
-        // Show top 50 weighted exercises
-        const commonExercises = weighted.slice(0, 50);
+        // Get top exercises (max 20)
+        const topExercises = weighted.slice(0, 20);
 
         const pickerHTML = `
             <div class="exercise-picker">
                 <div class="picker-header">
-                    <button id="picker-back-btn" class="btn btn-secondary">← Back</button>
-                    <h2>Select Exercise</h2>
-                    <div style="width: 44px;"></div>
+                    <button id="picker-back-btn" class="picker-back">✕</button>
+                    <h2 class="picker-title">Add Exercise</h2>
                 </div>
                 <div class="picker-content">
-                    <div class="search-box">
-                        <input type="text" id="exercise-search" placeholder="🔍 Search exercises...">
+                    <!-- Cardio Quick Add -->
+                    <div class="picker-quick-section">
+                        <div class="quick-grid">
+                            <button class="quick-btn" data-cardio="stepmill">
+                                🏃 스탭밀
+                            </button>
+                            <button class="quick-btn" data-cardio="walking">
+                                🚶 걷기
+                            </button>
+                        </div>
                     </div>
 
-                    ${commonExercises.length > 0 ? `
+                    <!-- Common Exercises -->
+                    ${topExercises.length > 0 ? `
                         <div class="picker-section">
-                            <div class="section-title">Common Exercises</div>
-                            <div class="exercise-grid">
-                                ${commonExercises.map(ex => `
-                                    <button class="exercise-option" data-exercise='${JSON.stringify(ex)}'>
-                                        <div class="exercise-option-name">${ex.name}</div>
-                                        <div class="exercise-option-count">${ex.count} times</div>
+                            <div class="section-label">RECENT</div>
+                            <div class="exercise-list">
+                                ${topExercises.map(ex => `
+                                    <button class="exercise-item" data-exercise='${JSON.stringify(ex)}'>
+                                        <span class="exercise-item-name">${ex.name}</span>
+                                        <span class="exercise-item-count">${ex.count}×</span>
                                     </button>
                                 `).join('')}
                             </div>
                         </div>
                     ` : ''}
 
+                    <!-- Add New -->
                     <div class="picker-section">
-                        <div class="section-title">Cardio</div>
-                        <div class="cardio-buttons">
-                            <button class="btn btn-secondary cardio-btn" data-cardio="stepmill">
-                                스탭밀 75층
-                            </button>
-                            <button class="btn btn-secondary cardio-btn" data-cardio="walking">
-                                걷기 10분
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="picker-section">
-                        <div class="section-title">Add New Exercise</div>
-                        <div style="background: var(--bg-tertiary); padding: var(--spacing-md); border-radius: var(--radius-md);">
+                        <div class="section-label">NEW EXERCISE</div>
+                        <div class="new-exercise-form">
                             <input
                                 type="text"
                                 id="new-exercise-name"
-                                placeholder="Exercise name..."
-                                style="width: 100%; padding: var(--spacing-sm); background: var(--bg-primary); color: var(--text-primary); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: var(--spacing-sm);"
+                                class="new-exercise-input"
+                                placeholder="Enter exercise name..."
                             >
-                            <div style="display: flex; gap: var(--spacing-sm);">
-                                <button class="btn btn-secondary" id="add-weighted-btn" style="flex: 1;">
-                                    ⚖️ Weighted
+                            <div class="new-exercise-btns">
+                                <button class="new-exercise-type-btn" id="add-weighted-btn">
+                                    <span class="type-icon">💪</span>
+                                    <span>Weighted</span>
                                 </button>
-                                <button class="btn btn-secondary" id="add-cardio-btn" style="flex: 1;">
-                                    🏃 Cardio
+                                <button class="new-exercise-type-btn" id="add-cardio-btn">
+                                    <span class="type-icon">❤️</span>
+                                    <span>Cardio</span>
                                 </button>
                             </div>
                         </div>
@@ -355,17 +351,17 @@ export class EditorView {
         this.addEventListener(document.getElementById('picker-back-btn'), 'click', pickerBackHandler);
 
         // Exercise selection
-        document.querySelectorAll('.exercise-option').forEach(btn => {
-            const exerciseOptionHandler = (e) => {
+        document.querySelectorAll('.exercise-item').forEach(btn => {
+            const exerciseItemHandler = (e) => {
                 const exerciseData = JSON.parse(e.currentTarget.dataset.exercise);
                 this.addExercise(exerciseData);
             };
-            this.addEventListener(btn, 'click', exerciseOptionHandler);
+            this.addEventListener(btn, 'click', exerciseItemHandler);
         });
 
-        // Cardio buttons
-        document.querySelectorAll('.cardio-btn').forEach(btn => {
-            const cardioHandler = (e) => {
+        // Cardio quick buttons
+        document.querySelectorAll('.quick-btn').forEach(btn => {
+            const quickBtnHandler = (e) => {
                 const type = e.currentTarget.dataset.cardio;
                 if (type === 'stepmill') {
                     this.addExercise({
@@ -381,13 +377,8 @@ export class EditorView {
                     });
                 }
             };
-            this.addEventListener(btn, 'click', cardioHandler);
+            this.addEventListener(btn, 'click', quickBtnHandler);
         });
-
-        // Search functionality
-        const searchInput = document.getElementById('exercise-search');
-        const searchHandler = (e) => this.filterExercises(e.target.value);
-        this.addEventListener(searchInput, 'input', searchHandler);
 
         // Add new exercise buttons
         const addWeightedHandler = () => this.addNewExercise('weighted');
@@ -439,22 +430,6 @@ export class EditorView {
 
         // Re-render exercise cards
         document.getElementById('exercise-cards').innerHTML = this.renderExerciseCards();
-    }
-
-    filterExercises(query) {
-        if (!query) {
-            document.querySelectorAll('.exercise-option').forEach(btn => {
-                btn.style.display = 'flex';
-            });
-            return;
-        }
-
-        const lowerQuery = query.toLowerCase();
-        document.querySelectorAll('.exercise-option').forEach(btn => {
-            const data = JSON.parse(btn.dataset.exercise);
-            const matches = data.name.toLowerCase().includes(lowerQuery);
-            btn.style.display = matches ? 'flex' : 'none';
-        });
     }
 
     hideExercisePicker() {
