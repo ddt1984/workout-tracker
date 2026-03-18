@@ -159,11 +159,7 @@ export class HistoryView {
             </button>
 
             <div class="workout-slider">
-                <button class="slider-nav prev" id="prev-workout" ${this.currentIndex === this.workouts.length - 1 ? 'disabled' : ''}>
-                    ‹
-                </button>
-
-                <div class="slider-card">
+                <div class="slider-card" id="slider-card">
                     <div class="workout-card-single">
                         <div class="workout-date">
                             ${workout.displayDate}
@@ -182,14 +178,6 @@ export class HistoryView {
                         </div>
                     </div>
                 </div>
-
-                <button class="slider-nav next" id="next-workout" ${this.currentIndex === 0 ? 'disabled' : ''}>
-                    ›
-                </button>
-            </div>
-
-            <div class="slider-indicator">
-                ${this.currentIndex + 1} / ${this.workouts.length}
             </div>
         `;
 
@@ -200,28 +188,6 @@ export class HistoryView {
     }
 
     setupSliderListeners() {
-        // Navigation buttons
-        const prevBtn = document.getElementById('prev-workout');
-        const nextBtn = document.getElementById('next-workout');
-
-        if (prevBtn && !prevBtn.disabled) {
-            this.addEventListener(prevBtn, 'click', () => {
-                if (this.currentIndex < this.workouts.length - 1) {
-                    this.currentIndex++;
-                    this.renderSlider();
-                }
-            });
-        }
-
-        if (nextBtn && !nextBtn.disabled) {
-            this.addEventListener(nextBtn, 'click', () => {
-                if (this.currentIndex > 0) {
-                    this.currentIndex--;
-                    this.renderSlider();
-                }
-            });
-        }
-
         // Copy and Edit buttons
         const copyBtn = document.getElementById('copy-workout');
         const editBtn = document.getElementById('edit-workout');
@@ -247,41 +213,104 @@ export class HistoryView {
             });
         }
 
-        // Touch swipe support
-        this.setupTouchSwipe();
+        // Drag & Swipe support
+        this.setupDragSwipe();
     }
 
-    setupTouchSwipe() {
-        const slider = this.container.querySelector('.slider-card');
+    setupDragSwipe() {
+        const slider = this.container.querySelector('#slider-card');
         if (!slider) return;
 
-        let touchStartX = 0;
-        let touchEndX = 0;
+        let startX = 0;
+        let currentX = 0;
+        let isDragging = false;
+        let startTime = 0;
 
-        const handleSwipe = () => {
-            const swipeThreshold = 50;
-            const diff = touchStartX - touchEndX;
+        const handleStart = (clientX) => {
+            startX = clientX;
+            currentX = clientX;
+            startTime = Date.now();
+            isDragging = true;
+            slider.style.transition = 'none';
+        };
 
-            if (Math.abs(diff) > swipeThreshold) {
-                if (diff > 0 && this.currentIndex < this.workouts.length - 1) {
-                    // Swipe left - show older
-                    this.currentIndex++;
-                    this.renderSlider();
-                } else if (diff < 0 && this.currentIndex > 0) {
+        const handleMove = (clientX) => {
+            if (!isDragging) return;
+            currentX = clientX;
+            const diff = currentX - startX;
+            slider.style.transform = `translateX(${diff}px)`;
+            slider.style.opacity = 1 - Math.abs(diff) / 500;
+        };
+
+        const handleEnd = () => {
+            if (!isDragging) return;
+            isDragging = false;
+
+            const diff = currentX - startX;
+            const duration = Date.now() - startTime;
+            const velocity = Math.abs(diff) / duration;
+            const threshold = velocity > 0.3 ? 30 : 80;
+
+            slider.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+
+            if (Math.abs(diff) > threshold) {
+                if (diff > 0 && this.currentIndex > 0) {
                     // Swipe right - show newer
-                    this.currentIndex--;
-                    this.renderSlider();
+                    slider.style.transform = 'translateX(100%)';
+                    slider.style.opacity = '0';
+                    setTimeout(() => {
+                        this.currentIndex--;
+                        this.renderSlider();
+                    }, 200);
+                } else if (diff < 0 && this.currentIndex < this.workouts.length - 1) {
+                    // Swipe left - show older
+                    slider.style.transform = 'translateX(-100%)';
+                    slider.style.opacity = '0';
+                    setTimeout(() => {
+                        this.currentIndex++;
+                        this.renderSlider();
+                    }, 200);
+                } else {
+                    // Reset position
+                    slider.style.transform = 'translateX(0)';
+                    slider.style.opacity = '1';
                 }
+            } else {
+                // Reset position
+                slider.style.transform = 'translateX(0)';
+                slider.style.opacity = '1';
             }
         };
 
+        // Touch events
         this.addEventListener(slider, 'touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
+            handleStart(e.touches[0].clientX);
         });
 
-        this.addEventListener(slider, 'touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
+        this.addEventListener(slider, 'touchmove', (e) => {
+            handleMove(e.touches[0].clientX);
+        });
+
+        this.addEventListener(slider, 'touchend', () => {
+            handleEnd();
+        });
+
+        // Mouse events (drag)
+        this.addEventListener(slider, 'mousedown', (e) => {
+            handleStart(e.clientX);
+            e.preventDefault();
+        });
+
+        this.addEventListener(document, 'mousemove', (e) => {
+            if (isDragging) {
+                handleMove(e.clientX);
+            }
+        });
+
+        this.addEventListener(document, 'mouseup', () => {
+            if (isDragging) {
+                handleEnd();
+            }
         });
     }
 
