@@ -393,11 +393,6 @@ body::before {
     margin: 0 auto;
 }
 
-.workout-slider-container > .btn-large {
-    margin-bottom: var(--spacing-md);
-    animation: fadeInUp 0.5s var(--spring);
-}
-
 /* Empty State */
 .empty-state {
     text-align: center;
@@ -931,16 +926,17 @@ body::before {
     padding: var(--spacing-sm) var(--spacing-md);
 }
 
-/* Chart Section - Ultra Compact */
+/* Chart Section - Spacious */
 .chart-section {
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
 }
 
 .chart-header {
     font-size: 0.9rem;
     font-weight: 700;
     font-family: var(--font-display);
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    padding-left: var(--spacing-xs);
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -950,7 +946,7 @@ body::before {
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
-    padding: var(--spacing-md);
+    padding: var(--spacing-lg);
     box-shadow: var(--shadow-sm);
 }
 
@@ -1055,20 +1051,20 @@ body::before {
     }
 
     .chart-section {
-        margin-bottom: var(--spacing-sm);
+        margin-bottom: var(--spacing-lg);
     }
 
     .chart-header {
-        font-size: 0.75rem;
-        margin-bottom: 4px;
+        font-size: 0.85rem;
+        margin-bottom: var(--spacing-sm);
     }
 
     .chart-content {
-        padding: var(--spacing-xs);
+        padding: var(--spacing-md);
     }
 
     .calendar-section {
-        padding: var(--spacing-xs);
+        padding: var(--spacing-sm);
     }
 
     .calendar-nav {
@@ -1191,22 +1187,22 @@ body::before {
     }
 
     .calendar-day {
-        font-size: 0.7rem;
+        font-size: 0.85rem;
     }
 
     .weekday {
-        font-size: 0.55rem;
-        padding: 1px 0;
+        font-size: 0.65rem;
+        padding: 2px 0;
     }
 
     .workout-indicator {
-        font-size: 0.5rem;
-        padding: 1px 2px;
+        font-size: 0.55rem;
+        padding: 1px 3px;
     }
 
     .calendar-days,
     .calendar-weekdays {
-        gap: 2px;
+        gap: 3px;
     }
 
     .btn {
@@ -1260,12 +1256,12 @@ body::before {
     }
 }
 
-/* Calendar Section - Ultra Compact */
+/* Calendar Section - Balanced */
 .calendar-section {
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
-    padding: var(--spacing-sm);
+    padding: var(--spacing-md);
     box-shadow: var(--shadow-sm);
 }
 
@@ -1331,18 +1327,18 @@ body::before {
 
 .weekday {
     text-align: center;
-    font-size: 0.6rem;
+    font-size: 0.7rem;
     font-weight: 600;
     color: var(--text-tertiary);
-    padding: 2px 0;
+    padding: var(--spacing-xs) 0;
     text-transform: uppercase;
-    letter-spacing: 0.2px;
+    letter-spacing: 0.3px;
 }
 
 .calendar-days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 2px;
+    gap: var(--spacing-xs);
 }
 
 .calendar-day {
@@ -1351,12 +1347,12 @@ body::before {
     align-items: center;
     justify-content: center;
     background: var(--bg-tertiary);
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     position: relative;
     transition: all var(--transition-fast);
     border: 1px solid transparent;
     cursor: default;
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: var(--text-secondary);
 }

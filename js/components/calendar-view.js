@@ -31,8 +31,8 @@ export class CalendarView {
                 <div class="header">
                     <h1>🏋️ Workout Tracker</h1>
                     <div class="header-actions">
-                        <button id="refresh-btn" class="btn-icon" title="Refresh">
-                            🔄
+                        <button id="new-workout-btn" class="btn-icon" title="New Workout">
+                            ➕
                         </button>
                         <button id="settings-btn" class="btn-icon" title="Settings">
                             ⚙️
@@ -335,13 +335,12 @@ export class CalendarView {
         };
         this.addEventListener(document.getElementById('next-month'), 'click', nextMonthHandler);
 
-        // Refresh
-        const refreshHandler = () => {
-            // Reload chart and calendar
-            this.renderMonthlyChart();
-            this.renderCalendar();
+        // New workout
+        const newWorkoutHandler = () => {
+            State.update({ editingWorkout: null });
+            State.setView('editor');
         };
-        this.addEventListener(document.getElementById('refresh-btn'), 'click', refreshHandler);
+        this.addEventListener(document.getElementById('new-workout-btn'), 'click', newWorkoutHandler);
 
         // Settings
         const settingsHandler = () => {

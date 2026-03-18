@@ -34,8 +34,8 @@ export class HistoryView {
                 <div class="header">
                     <h1>🏋️ Workout Tracker</h1>
                     <div class="header-actions">
-                        <button id="refresh-btn" class="btn-icon" title="새로고침">
-                            🔄
+                        <button id="new-workout-btn" class="btn-icon" title="New Workout">
+                            ➕
                         </button>
                         <button id="settings-btn" class="btn-icon" title="설정">
                             ⚙️
@@ -53,9 +53,6 @@ export class HistoryView {
                 </div>
 
                 <div class="workout-slider-container">
-                    <button id="new-workout-btn" class="btn btn-large btn-primary">
-                        ➕ New Workout
-                    </button>
                     <div class="loading">
                         <div class="spinner"></div>
                         <p>Loading workouts...</p>
@@ -127,20 +124,12 @@ export class HistoryView {
 
         if (workouts.length === 0) {
             this.container.querySelector('.workout-slider-container').innerHTML = `
-                <button id="new-workout-btn" class="btn btn-large btn-primary">
-                    ➕ New Workout
-                </button>
                 <div class="empty-state">
                     <div class="empty-icon">🏋️</div>
                     <p>No workouts yet</p>
                     <p class="empty-subtitle">Start tracking your fitness journey!</p>
                 </div>
             `;
-            // Re-setup new workout button
-            this.addEventListener(document.getElementById('new-workout-btn'), 'click', () => {
-                State.update({ editingWorkout: null });
-                State.setView('editor');
-            });
             return;
         }
 
@@ -154,10 +143,6 @@ export class HistoryView {
         const exerciseSummary = this.getExerciseSummary(workout.exercises);
 
         const html = `
-            <button id="new-workout-btn" class="btn btn-large btn-primary">
-                ➕ New Workout
-            </button>
-
             <div class="workout-slider">
                 <div class="slider-card" id="slider-card">
                     <div class="workout-card-single">
@@ -201,15 +186,6 @@ export class HistoryView {
         if (editBtn) {
             this.addEventListener(editBtn, 'click', () => {
                 this.editWorkout(this.workouts[this.currentIndex]);
-            });
-        }
-
-        // New workout button
-        const newBtn = document.getElementById('new-workout-btn');
-        if (newBtn) {
-            this.addEventListener(newBtn, 'click', () => {
-                State.update({ editingWorkout: null });
-                State.setView('editor');
             });
         }
 
@@ -333,9 +309,12 @@ export class HistoryView {
         const calendarTabHandler = () => State.setView('calendar');
         this.addEventListener(document.getElementById('calendar-tab'), 'click', calendarTabHandler);
 
-        // Refresh
-        const refreshHandler = () => this.loadWorkouts();
-        this.addEventListener(document.getElementById('refresh-btn'), 'click', refreshHandler);
+        // New workout
+        const newWorkoutHandler = () => {
+            State.update({ editingWorkout: null });
+            State.setView('editor');
+        };
+        this.addEventListener(document.getElementById('new-workout-btn'), 'click', newWorkoutHandler);
 
         // Settings
         const settingsHandler = () => this.showSettings();
