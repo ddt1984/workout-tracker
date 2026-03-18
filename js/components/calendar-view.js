@@ -42,7 +42,7 @@ export class CalendarView {
 
                 <div class="tab-nav">
                     <button id="history-tab" class="tab-btn">
-                        📋 History
+                        📋 Recent
                     </button>
                     <button id="calendar-tab" class="tab-btn active">
                         📊 Analytics

@@ -45,7 +45,7 @@ export class HistoryView {
 
                 <div class="tab-nav">
                     <button id="history-tab" class="tab-btn active">
-                        📋 History
+                        📋 Recent
                     </button>
                     <button id="calendar-tab" class="tab-btn">
                         📊 Analytics
