@@ -1,15 +1,15 @@
 {
   "name": "Workout Tracker",
   "short_name": "Workout",
-  "description": "Track your workouts with GitHub sync",
+  "description": "Track your workouts with athletic energy and GitHub sync",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#1a1a1a",
-  "theme_color": "#1a1a1a",
+  "background_color": "#667eea",
+  "theme_color": "#667eea",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🏋️</text></svg>",
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23667eea' /><stop offset='100%' style='stop-color:%23764ba2' /></linearGradient></defs><circle cx='50' cy='50' r='48' fill='url(%23grad)'/><text x='50' y='68' font-size='50' text-anchor='middle'>🏋️</text></svg>",
       "sizes": "512x512",
       "type": "image/svg+xml"
     }

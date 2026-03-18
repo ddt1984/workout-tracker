@@ -1,67 +1,175 @@
-/* Apple-inspired Light Mode Design System */
+/* Athletic Energy Design System - Light & Dark Mode */
+
 :root {
-    /* Clean Light Mode Colors */
-    --bg-primary: #ffffff;
-    --bg-secondary: #f5f5f7;
-    --bg-tertiary: #e8e8ed;
+    /* Typography - Bold & Energetic */
+    --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
+    --font-body: 'Manrope', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+    /* Light Mode Colors */
+    --bg-primary: #fafafa;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f0f0f5;
     --bg-elevated: #ffffff;
+    --bg-glass: rgba(255, 255, 255, 0.8);
+
+    /* Dynamic Gradients */
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-energy: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --gradient-success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --gradient-warm: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    --gradient-cool: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+    --gradient-mesh: radial-gradient(at 0% 0%, #667eea 0%, transparent 50%),
+                      radial-gradient(at 100% 100%, #764ba2 0%, transparent 50%);
 
     /* Card backgrounds */
     --card-bg: #ffffff;
-    --card-border: rgba(0, 0, 0, 0.08);
+    --card-border: rgba(102, 126, 234, 0.15);
+    --card-glow: 0 8px 32px rgba(102, 126, 234, 0.15);
 
-    /* Text */
-    --text-primary: #1d1d1f;
-    --text-secondary: #3a3a3c;
-    --text-tertiary: #6e6e73;
+    /* Text - High Contrast */
+    --text-primary: #1a1a2e;
+    --text-secondary: #4a4a68;
+    --text-tertiary: #7a7a95;
+    --text-inverse: #ffffff;
 
-    /* Accent Colors - iOS style */
-    --accent: #007aff;
-    --accent-hover: #0051d5;
-    --accent-light: rgba(0, 122, 255, 0.1);
+    /* Accent Colors - Energetic */
+    --accent: #667eea;
+    --accent-hover: #5568d3;
+    --accent-light: rgba(102, 126, 234, 0.15);
+    --accent-glow: 0 0 30px rgba(102, 126, 234, 0.4);
 
-    /* Status Colors */
-    --success: #34c759;
-    --success-light: rgba(52, 199, 89, 0.1);
-    --error: #ff3b30;
-    --warning: #ff9500;
+    /* Status Colors - Vibrant */
+    --success: #00d4aa;
+    --success-glow: 0 0 20px rgba(0, 212, 170, 0.3);
+    --success-light: rgba(0, 212, 170, 0.15);
+    --error: #ff5370;
+    --error-glow: 0 0 20px rgba(255, 83, 112, 0.3);
+    --warning: #ffca28;
+    --energy: #f5576c;
+    --energy-glow: 0 0 25px rgba(245, 87, 108, 0.4);
 
     /* Borders */
-    --border: rgba(0, 0, 0, 0.1);
-    --border-hover: rgba(0, 0, 0, 0.2);
-    --divider: rgba(0, 0, 0, 0.05);
+    --border: rgba(102, 126, 234, 0.1);
+    --border-hover: rgba(102, 126, 234, 0.3);
+    --divider: rgba(0, 0, 0, 0.06);
 
-    /* Spacing - iOS style */
+    /* Spacing */
     --spacing-xs: 4px;
     --spacing-sm: 8px;
     --spacing-md: 16px;
     --spacing-lg: 24px;
     --spacing-xl: 32px;
     --spacing-2xl: 48px;
+    --spacing-3xl: 64px;
 
-    /* Border Radius - iOS style */
-    --radius-sm: 10px;
-    --radius-md: 14px;
-    --radius-lg: 20px;
-    --radius-xl: 28px;
+    /* Border Radius - Modern & Soft */
+    --radius-sm: 12px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-xl: 32px;
+    --radius-full: 9999px;
 
-    /* Shadows - Soft and subtle */
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
-    --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
-    --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06);
+    /* Shadows - Dramatic 3D */
+    --shadow-sm: 0 2px 8px rgba(102, 126, 234, 0.08),
+                  0 1px 3px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 16px rgba(102, 126, 234, 0.12),
+                  0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 12px 40px rgba(102, 126, 234, 0.2),
+                  0 4px 16px rgba(0, 0, 0, 0.12);
+    --shadow-xl: 0 20px 60px rgba(102, 126, 234, 0.25),
+                  0 8px 24px rgba(0, 0, 0, 0.15);
+    --shadow-card: 0 8px 32px rgba(102, 126, 234, 0.12);
+    --shadow-inset: inset 0 2px 8px rgba(0, 0, 0, 0.1);
 
-    /* Transitions - Smooth iOS style */
-    --transition-fast: 200ms cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-normal: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+    /* Transitions - Snappy & Smooth */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
-    --spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     /* Touch targets */
-    --touch-min: 44px;
+    --touch-min: 48px;
 
-    /* Backdrop blur */
-    --blur-sm: blur(10px);
-    --blur-md: blur(20px);
-    --blur-lg: blur(40px);
+    /* Backdrop effects */
+    --blur-sm: blur(8px);
+    --blur-md: blur(16px);
+    --blur-lg: blur(32px);
+    --glass-bg: rgba(255, 255, 255, 0.7);
+}
+
+/* Dark Mode - Athletic Night Theme */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-primary: #0f0f1e;
+        --bg-secondary: #16162a;
+        --bg-tertiary: #1d1d36;
+        --bg-elevated: #1d1d36;
+        --bg-glass: rgba(22, 22, 42, 0.8);
+
+        --card-bg: #16162a;
+        --card-border: rgba(102, 126, 234, 0.2);
+        --card-glow: 0 8px 32px rgba(102, 126, 234, 0.2);
+
+        --text-primary: #e8e8f5;
+        --text-secondary: #b8b8d0;
+        --text-tertiary: #8888a8;
+
+        --accent: #7c8efc;
+        --accent-hover: #8c9efc;
+        --accent-light: rgba(124, 142, 252, 0.2);
+
+        --success: #00f2c3;
+        --error: #ff6b8a;
+        --warning: #ffd93d;
+        --energy: #ff6b8a;
+
+        --border: rgba(124, 142, 252, 0.15);
+        --border-hover: rgba(124, 142, 252, 0.4);
+        --divider: rgba(255, 255, 255, 0.08);
+
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+        --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+        --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.5);
+        --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.6);
+        --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+        --glass-bg: rgba(22, 22, 42, 0.7);
+
+        --gradient-mesh: radial-gradient(at 0% 0%, #667eea 0%, transparent 50%),
+                          radial-gradient(at 100% 100%, #f5576c 0%, transparent 50%);
+    }
+}
+
+/* Manual Dark Mode Toggle */
+[data-theme="dark"] {
+    --bg-primary: #0f0f1e;
+    --bg-secondary: #16162a;
+    --bg-tertiary: #1d1d36;
+    --bg-elevated: #1d1d36;
+    --bg-glass: rgba(22, 22, 42, 0.8);
+
+    --card-bg: #16162a;
+    --card-border: rgba(102, 126, 234, 0.2);
+    --card-glow: 0 8px 32px rgba(102, 126, 234, 0.2);
+
+    --text-primary: #e8e8f5;
+    --text-secondary: #b8b8d0;
+    --text-tertiary: #8888a8;
+
+    --accent: #7c8efc;
+    --accent-hover: #8c9efc;
+    --accent-light: rgba(124, 142, 252, 0.2);
+
+    --success: #00f2c3;
+    --error: #ff6b8a;
+    --warning: #ffd93d;
+    --energy: #ff6b8a;
+
+    --border: rgba(124, 142, 252, 0.15);
+    --border-hover: rgba(124, 142, 252, 0.4);
+    --divider: rgba(255, 255, 255, 0.08);
+
+    --glass-bg: rgba(22, 22, 42, 0.7);
 }
