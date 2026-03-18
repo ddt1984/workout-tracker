@@ -509,37 +509,37 @@ body::before {
     gap: var(--spacing-sm);
 }
 
-/* Editor View - Dark Theme */
+/* Editor View - Dark Charcoal Theme */
 .editor-view {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: #0d1421;
+    background: #1a1a1a;
 }
 
 .editor-view .header {
-    background: #0d1421;
-    border-bottom-color: #1e2a44;
+    background: #1a1a1a;
+    border-bottom-color: #2a2a2a;
 }
 
 .editor-content {
     flex: 1;
     padding: var(--spacing-md);
     padding-bottom: 80px;
-    background: #0d1421;
+    background: #1a1a1a;
 }
 
 .date-picker {
-    background: #141b2e;
+    background: #242424;
     padding: var(--spacing-md);
     border-radius: var(--radius-lg);
     margin-bottom: var(--spacing-md);
-    border: 1px solid #1e2a44;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    border: 1px solid #2a2a2a;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 .date-picker label {
-    color: #6b7a99;
+    color: #808080;
     font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -549,14 +549,14 @@ body::before {
 }
 
 .date-picker input {
-    background: #1e2a44;
+    background: #2a2a2a;
     color: #ffffff;
     font-size: 1.2rem;
     font-weight: 600;
     width: 100%;
     padding: var(--spacing-md);
     border-radius: var(--radius-md);
-    border: 1px solid #2a3650;
+    border: 1px solid #333333;
 }
 
 .date-picker input::-webkit-calendar-picker-indicator {
@@ -571,11 +571,11 @@ body::before {
 }
 
 .exercise-card {
-    background: #141b2e;
+    background: #242424;
     border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-    border: 1px solid #1e2a44;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    border: 1px solid #2a2a2a;
     transition: all var(--transition-normal);
     position: relative;
     overflow: hidden;
@@ -584,8 +584,8 @@ body::before {
 
 .exercise-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    border-color: #2a3650;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    border-color: #00d4aa;
 }
 
 .exercise-card-header {
@@ -608,8 +608,8 @@ body::before {
 .btn-remove {
     width: 36px;
     height: 36px;
-    background: #1e2a44;
-    border: 1px solid #2a3650;
+    background: #2a2a2a;
+    border: 1px solid #333333;
     border-radius: var(--radius-sm);
     color: #ff6b8a;
     font-size: 1.2rem;
@@ -620,13 +620,13 @@ body::before {
 }
 
 .btn-remove:hover {
-    background: #2a3650;
+    background: #333333;
     transform: scale(1.05);
 }
 
 .btn-remove:active {
     transform: scale(0.95);
-    background: #232f48;
+    background: #242424;
 }
 
 /* Exercise Controls - Dark UI Style */
@@ -637,8 +637,8 @@ body::before {
 }
 
 .control-group {
-    background: #1e2a44;
-    border: 1px solid #2a3650;
+    background: #2a2a2a;
+    border: 1px solid #333333;
     border-radius: 14px;
     padding: var(--spacing-md);
 }
@@ -660,7 +660,7 @@ body::before {
     font-family: var(--font-display);
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: #6b7a99;
+    color: #808080;
     margin-bottom: var(--spacing-sm);
 }
 
@@ -674,12 +674,12 @@ body::before {
 .control-btn {
     width: 44px;
     height: 44px;
-    background: #2a3650;
-    border: 1px solid #3a4660;
+    background: #333333;
+    border: 1px solid #404040;
     border-radius: 12px;
     font-size: 1.5rem;
     font-weight: 300;
-    color: #5b8ff9;
+    color: #00d4aa;
     user-select: none;
     transition: all var(--transition-fast);
     display: flex;
@@ -690,14 +690,14 @@ body::before {
 }
 
 .control-btn:hover {
-    background: #3a4660;
-    color: #7ba7ff;
+    background: #404040;
+    color: #00f2c3;
     transform: scale(1.05);
 }
 
 .control-btn:active {
     transform: scale(0.95);
-    background: #232f48;
+    background: #2a2a2a;
 }
 
 .control-value {
@@ -722,32 +722,32 @@ body::before {
 .value-unit {
     font-size: 1rem;
     font-weight: 600;
-    color: #6b7a99;
+    color: #808080;
 }
 
 /* Dark theme button overrides for editor */
 .editor-view .btn-secondary {
-    background: #1e2a44;
+    background: #2a2a2a;
     color: #ffffff;
-    border: 1px solid #2a3650;
+    border: 1px solid #333333;
 }
 
 .editor-view .btn-secondary:hover {
-    background: #2a3650;
-    border-color: #3a4660;
+    background: #333333;
+    border-color: #404040;
 }
 
 .editor-view .btn-secondary:active {
-    background: #232f48;
+    background: #242424;
 }
 
 .editor-view .btn-primary {
-    background: #5b8ff9;
+    background: #00d4aa;
     border: none;
 }
 
 .editor-view .btn-primary:hover {
-    background: #7ba7ff;
+    background: #00f2c3;
 }
 
 .editor-view .btn-success {
@@ -763,7 +763,7 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: #0d1421;
+    background: #1a1a1a;
     z-index: 200;
     display: flex;
     flex-direction: column;
@@ -780,9 +780,9 @@ body::before {
 }
 
 .picker-header {
-    background: #0d1421;
+    background: #1a1a1a;
     padding: var(--spacing-lg) var(--spacing-md);
-    border-bottom: 1px solid #1e2a44;
+    border-bottom: 1px solid #2a2a2a;
     display: flex;
     align-items: center;
     gap: var(--spacing-md);
@@ -792,8 +792,8 @@ body::before {
     width: 36px;
     height: 36px;
     border-radius: var(--radius-sm);
-    background: #1e2a44;
-    border: 1px solid #2a3650;
+    background: #2a2a2a;
+    border: 1px solid #333333;
     color: #ffffff;
     font-size: 1.3rem;
     font-weight: 300;
@@ -805,7 +805,7 @@ body::before {
 }
 
 .picker-back:hover {
-    background: #2a3650;
+    background: #333333;
     transform: scale(1.05);
 }
 
@@ -843,8 +843,8 @@ body::before {
 }
 
 .quick-btn {
-    background: #1e2a44;
-    border: 1px solid #2a3650;
+    background: #2a2a2a;
+    border: 1px solid #333333;
     border-radius: var(--radius-md);
     padding: var(--spacing-lg);
     font-size: 1.1rem;
@@ -855,9 +855,10 @@ body::before {
 }
 
 .quick-btn:hover {
-    background: #2a3650;
+    background: #333333;
+    border-color: #00d4aa;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .quick-btn:active {
@@ -873,7 +874,7 @@ body::before {
     font-size: 0.7rem;
     font-weight: 700;
     font-family: var(--font-display);
-    color: #6b7a99;
+    color: #808080;
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: var(--spacing-sm);
@@ -882,8 +883,8 @@ body::before {
 
 /* Exercise List */
 .exercise-list {
-    background: #141b2e;
-    border: 1px solid #1e2a44;
+    background: #242424;
+    border: 1px solid #2a2a2a;
     border-radius: var(--radius-md);
     overflow: hidden;
 }
@@ -895,7 +896,7 @@ body::before {
     padding: var(--spacing-md);
     background: transparent;
     border: none;
-    border-bottom: 1px solid #1e2a44;
+    border-bottom: 1px solid #2a2a2a;
     width: 100%;
     cursor: pointer;
     transition: all var(--transition-fast);
@@ -906,7 +907,7 @@ body::before {
 }
 
 .exercise-item:hover {
-    background: #1e2a44;
+    background: #2a2a2a;
 }
 
 .exercise-item:active {
@@ -923,21 +924,21 @@ body::before {
 .exercise-item-count {
     font-size: 0.85rem;
     font-weight: 600;
-    color: #6b7a99;
+    color: #808080;
 }
 
 /* New Exercise Form */
 .new-exercise-form {
-    background: #141b2e;
-    border: 1px solid #1e2a44;
+    background: #242424;
+    border: 1px solid #2a2a2a;
     border-radius: var(--radius-md);
     padding: var(--spacing-md);
 }
 
 .new-exercise-input {
     width: 100%;
-    background: #1e2a44;
-    border: 1px solid #2a3650;
+    background: #2a2a2a;
+    border: 1px solid #333333;
     border-radius: var(--radius-sm);
     padding: var(--spacing-md);
     color: #ffffff;
@@ -946,12 +947,12 @@ body::before {
 }
 
 .new-exercise-input::placeholder {
-    color: #6b7a99;
+    color: #808080;
 }
 
 .new-exercise-input:focus {
     outline: none;
-    border-color: #5b8ff9;
+    border-color: #00d4aa;
 }
 
 .new-exercise-btns {
@@ -961,8 +962,8 @@ body::before {
 }
 
 .new-exercise-type-btn {
-    background: #1e2a44;
-    border: 1px solid #2a3650;
+    background: #2a2a2a;
+    border: 1px solid #333333;
     border-radius: var(--radius-sm);
     padding: var(--spacing-md);
     display: flex;
@@ -977,8 +978,8 @@ body::before {
 }
 
 .new-exercise-type-btn:hover {
-    background: #2a3650;
-    border-color: #5b8ff9;
+    background: #333333;
+    border-color: #00d4aa;
 }
 
 .new-exercise-type-btn:active {
