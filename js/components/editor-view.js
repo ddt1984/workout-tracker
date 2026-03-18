@@ -278,10 +278,9 @@ export class EditorView {
 
     showExercisePicker() {
         const exercises = State.exercises;
-        const weighted = exercises.filter(ex => ex.type === 'weighted');
 
-        // Get top exercises (max 20)
-        const topExercises = weighted.slice(0, 20);
+        // Get top exercises (max 20, all types)
+        const topExercises = exercises.slice(0, 20);
 
         const pickerHTML = `
             <div class="exercise-picker">
@@ -290,35 +289,34 @@ export class EditorView {
                     <h2 class="picker-title">Add Exercise</h2>
                 </div>
                 <div class="picker-content">
-                    <!-- Cardio Quick Add -->
-                    <div class="picker-quick-section">
-                        <div class="quick-grid">
-                            <button class="quick-btn" data-cardio="stepmill">
-                                🏃 스탭밀
-                            </button>
-                            <button class="quick-btn" data-cardio="walking">
-                                🚶 걷기
-                            </button>
-                        </div>
+                    <div class="picker-scroll-area">
+                        <!-- Common Exercises -->
+                        ${topExercises.length > 0 ? `
+                            <div class="picker-section">
+                                <div class="section-label">RECENT</div>
+                                <div class="exercise-list">
+                                    ${topExercises.map(ex => {
+                                        const icon = ex.type === 'weighted' ? '💪' :
+                                                   ex.type === 'stepmill' ? '🏃' :
+                                                   ex.type === 'walking' ? '🚶' : '🏋️';
+                                        return `
+                                            <button class="exercise-item" data-exercise='${JSON.stringify(ex)}'>
+                                                <div class="exercise-item-left">
+                                                    <span class="exercise-item-icon">${icon}</span>
+                                                    <span class="exercise-item-name">${ex.name}</span>
+                                                </div>
+                                                <span class="exercise-item-count">${ex.count}×</span>
+                                            </button>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
                     </div>
 
-                    <!-- Common Exercises -->
-                    ${topExercises.length > 0 ? `
+                    <!-- Add New - Fixed at Bottom -->
+                    <div class="picker-fixed-section">
                         <div class="picker-section">
-                            <div class="section-label">RECENT</div>
-                            <div class="exercise-list">
-                                ${topExercises.map(ex => `
-                                    <button class="exercise-item" data-exercise='${JSON.stringify(ex)}'>
-                                        <span class="exercise-item-name">${ex.name}</span>
-                                        <span class="exercise-item-count">${ex.count}×</span>
-                                    </button>
-                                `).join('')}
-                            </div>
-                        </div>
-                    ` : ''}
-
-                    <!-- Add New -->
-                    <div class="picker-section">
                         <div class="section-label">NEW EXERCISE</div>
                         <div class="new-exercise-form">
                             <input
@@ -337,6 +335,7 @@ export class EditorView {
                                     <span>Cardio</span>
                                 </button>
                             </div>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -357,27 +356,6 @@ export class EditorView {
                 this.addExercise(exerciseData);
             };
             this.addEventListener(btn, 'click', exerciseItemHandler);
-        });
-
-        // Cardio quick buttons
-        document.querySelectorAll('.quick-btn').forEach(btn => {
-            const quickBtnHandler = (e) => {
-                const type = e.currentTarget.dataset.cardio;
-                if (type === 'stepmill') {
-                    this.addExercise({
-                        name: '스탭밀',
-                        type: 'stepmill',
-                        lastFloors: 75
-                    });
-                } else if (type === 'walking') {
-                    this.addExercise({
-                        name: '걷기',
-                        type: 'walking',
-                        lastMinutes: 10
-                    });
-                }
-            };
-            this.addEventListener(btn, 'click', quickBtnHandler);
         });
 
         // Add new exercise buttons

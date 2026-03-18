@@ -52,7 +52,7 @@ export class CalendarView {
                 <div class="calendar-container">
                     <!-- Monthly Chart -->
                     <div class="chart-section">
-                        <div class="chart-header">📊 Monthly Workout Days</div>
+                        <div class="chart-header">📊 Monthly workout days</div>
                         <div id="monthly-chart" class="chart-content">
                             <!-- Chart will be rendered here -->
                         </div>
@@ -135,20 +135,20 @@ export class CalendarView {
         const maxCount = Math.max(...monthsData.map(m => m.count), 1);
 
         // Generate chart HTML
-        let chartHTML = '<div class="chart-bars">';
+        let chartHTML = '<div class="monthly-bars">';
 
         monthsData.forEach(data => {
             const percentage = (data.count / maxCount) * 100;
             const isCurrentMonth = data.year === today.getFullYear() && data.month === today.getMonth();
 
             chartHTML += `
-                <div class="chart-bar-container ${isCurrentMonth ? 'current' : ''}">
-                    <div class="chart-content">
-                        <div class="chart-bar" style="height: ${percentage}%">
-                            <span class="bar-value">${data.count}</span>
+                <div class="month-bar ${isCurrentMonth ? 'current-month' : ''}">
+                    <div class="bar-wrapper">
+                        <div class="bar-fill" style="height: ${percentage}%">
+                            <span class="bar-count">${data.count}</span>
                         </div>
                     </div>
-                    <div class="bar-label">${data.label}</div>
+                    <div class="month-label">${data.label}</div>
                 </div>
             `;
         });
@@ -239,12 +239,9 @@ export class CalendarView {
             if (isToday) dayClass += ' today';
             if (hasWorkout) dayClass += ' workout-day';
 
-            const workoutCount = workoutDays.get(day) || 0;
-
             calendarHTML += `
                 <div class="${dayClass}" data-day="${day}">
                     <span class="day-number">${day}</span>
-                    ${hasWorkout ? `<span class="workout-indicator">${workoutCount}</span>` : ''}
                 </div>
             `;
         }

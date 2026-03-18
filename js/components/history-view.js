@@ -292,15 +292,26 @@ export class HistoryView {
 
     getExerciseSummary(exercises) {
         return exercises.map(ex => {
-            let text = ex.name;
+            const icon = ex.type === 'weighted' ? '💪' :
+                       ex.type === 'stepmill' ? '🏃' :
+                       ex.type === 'walking' ? '🚶' : '🏋️';
+
+            let details = '';
             if (ex.type === 'weighted') {
-                text += ` ${ex.weight}kg ${ex.reps}${ex.sets ? ' x ' + ex.sets : ''}`;
+                details = `<span class="exercise-weight">${ex.weight}kg</span> <span class="exercise-reps">${ex.reps}${ex.sets ? ' × ' + ex.sets : ''}</span>`;
             } else if (ex.type === 'stepmill') {
-                text += ` ${ex.floors}층`;
+                details = `<span class="exercise-detail">${ex.floors}층</span>`;
             } else if (ex.type === 'walking') {
-                text += ` ${ex.minutes}분`;
+                details = `<span class="exercise-detail">${ex.minutes}분</span>`;
             }
-            return `<div class="exercise-item">${text}</div>`;
+
+            return `
+                <div class="exercise-item" data-type="${ex.type}">
+                    <span class="exercise-icon">${icon}</span>
+                    <span class="exercise-name">${ex.name}</span>
+                    <span class="exercise-details">${details}</span>
+                </div>
+            `;
         }).join('');
     }
 
