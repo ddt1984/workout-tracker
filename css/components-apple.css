@@ -514,46 +514,58 @@ body::before {
     gap: var(--spacing-sm);
 }
 
-/* Editor View - iOS Style */
+/* Editor View - Dark Theme */
 .editor-view {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: var(--bg-primary);
+    background: #0d1421;
+}
+
+.editor-view .header {
+    background: #0d1421;
+    border-bottom-color: #1e2a44;
 }
 
 .editor-content {
     flex: 1;
     padding: var(--spacing-md);
     padding-bottom: 80px;
+    background: #0d1421;
 }
 
 .date-picker {
-    background: var(--bg-secondary);
+    background: #141b2e;
     padding: var(--spacing-md);
     border-radius: var(--radius-lg);
     margin-bottom: var(--spacing-md);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-card);
+    border: 1px solid #1e2a44;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
 .date-picker label {
-    color: var(--text-tertiary);
-    font-size: 0.9rem;
-    font-weight: 600;
+    color: #6b7a99;
+    font-size: 0.7rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
     display: block;
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
 }
 
 .date-picker input {
-    background: transparent;
-    color: var(--text-primary);
+    background: #1e2a44;
+    color: #ffffff;
     font-size: 1.2rem;
     font-weight: 600;
     width: 100%;
-    padding: var(--spacing-sm);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    border: 1px solid #2a3650;
+}
+
+.date-picker input::-webkit-calendar-picker-indicator {
+    filter: invert(0.8);
 }
 
 .exercise-cards {
@@ -564,41 +576,21 @@ body::before {
 }
 
 .exercise-card {
-    background: var(--card-bg);
+    background: #141b2e;
     border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
-    box-shadow: var(--shadow-card);
-    border: 2px solid var(--card-border);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    border: 1px solid #1e2a44;
     transition: all var(--transition-normal);
     position: relative;
     overflow: hidden;
     animation: slideInRight 0.5s var(--spring) backwards;
 }
 
-.exercise-card::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, var(--accent-light) 0%, transparent 70%);
-    opacity: 0;
-    transition: opacity var(--transition-normal);
-}
-
-.exercise-card:hover::after {
-    opacity: 1;
-}
-
 .exercise-card:hover {
-    transform: translateX(4px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--accent);
-}
-
-.exercise-card:active {
-    transform: translateX(2px) scale(0.99);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    border-color: #2a3650;
 }
 
 .exercise-card-header {
@@ -612,94 +604,160 @@ body::before {
 
 .exercise-name {
     font-size: 1.4rem;
-    font-weight: 800;
+    font-weight: 700;
     font-family: var(--font-display);
     letter-spacing: -0.5px;
-    color: var(--text-primary);
+    color: #ffffff;
 }
 
 .btn-remove {
-    color: var(--error);
-    font-size: 1.4rem;
-    transition: transform var(--transition-fast);
+    width: 36px;
+    height: 36px;
+    background: #1e2a44;
+    border: 1px solid #2a3650;
+    border-radius: var(--radius-sm);
+    color: #ff6b8a;
+    font-size: 1.2rem;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-remove:hover {
+    background: #2a3650;
+    transform: scale(1.05);
 }
 
 .btn-remove:active {
-    transform: scale(0.9);
+    transform: scale(0.95);
+    background: #232f48;
 }
 
+/* Exercise Controls - Dark UI Style */
 .exercise-controls {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
+    gap: var(--spacing-sm);
 }
 
-.control-row {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-md);
-    background: var(--bg-tertiary);
-    border-radius: var(--radius-lg);
+.control-group {
+    background: #1e2a44;
+    border: 1px solid #2a3650;
+    border-radius: 14px;
     padding: var(--spacing-md);
-    border: 2px solid transparent;
-    transition: all var(--transition-normal);
 }
 
-.control-row:hover {
-    background: var(--card-bg);
-    border-color: var(--border);
-    box-shadow: var(--shadow-sm);
+.control-full {
+    /* Full width control */
+}
+
+.control-row-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-sm);
 }
 
 .control-label {
-    flex: 0 0 80px;
-    color: var(--text-tertiary);
-    font-size: 0.85rem;
+    display: block;
+    font-size: 0.7rem;
     font-weight: 700;
     font-family: var(--font-display);
     text-transform: uppercase;
     letter-spacing: 1px;
+    color: #6b7a99;
+    margin-bottom: var(--spacing-sm);
+}
+
+.control-input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
 }
 
 .control-btn {
-    width: var(--touch-min);
-    height: var(--touch-min);
-    background: var(--gradient-primary);
-    border-radius: var(--radius-md);
+    width: 44px;
+    height: 44px;
+    background: #2a3650;
+    border: 1px solid #3a4660;
+    border-radius: 12px;
     font-size: 1.5rem;
-    font-weight: 900;
-    color: white;
+    font-weight: 300;
+    color: #5b8ff9;
     user-select: none;
-    transition: all var(--transition-normal);
-    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-fast);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    flex-shrink: 0;
 }
 
 .control-btn:hover {
-    transform: scale(1.1);
-    box-shadow: var(--shadow-md), var(--accent-glow);
+    background: #3a4660;
+    color: #7ba7ff;
+    transform: scale(1.05);
 }
 
 .control-btn:active {
     transform: scale(0.95);
-    box-shadow: var(--shadow-sm);
+    background: #232f48;
 }
 
 .control-value {
     flex: 1;
     text-align: center;
-    font-size: 1.5rem;
-    font-weight: 800;
+    font-size: 2rem;
+    font-weight: 700;
     font-family: var(--font-display);
-    min-width: 100px;
+    color: #ffffff;
     letter-spacing: -0.5px;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: var(--spacing-xs);
+}
+
+.value-number {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.value-unit {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #6b7a99;
+}
+
+/* Dark theme button overrides for editor */
+.editor-view .btn-secondary {
+    background: #1e2a44;
+    color: #ffffff;
+    border: 1px solid #2a3650;
+}
+
+.editor-view .btn-secondary:hover {
+    background: #2a3650;
+    border-color: #3a4660;
+}
+
+.editor-view .btn-secondary:active {
+    background: #232f48;
+}
+
+.editor-view .btn-primary {
+    background: #5b8ff9;
+    border: none;
+}
+
+.editor-view .btn-primary:hover {
+    background: #7ba7ff;
+}
+
+.editor-view .btn-success {
+    background: linear-gradient(135deg, #00d4aa 0%, #00f2c3 100%);
+    border: none;
 }
 
 /* Exercise Picker - iOS Bottom Sheet Style */
@@ -1107,7 +1165,29 @@ body::before {
     }
 
     .control-value {
+        font-size: 1.5rem;
+    }
+
+    .value-number {
+        font-size: 1.5rem;
+    }
+
+    .value-unit {
+        font-size: 0.9rem;
+    }
+
+    .control-btn {
+        width: 40px;
+        height: 40px;
         font-size: 1.3rem;
+    }
+
+    .control-label {
+        font-size: 0.65rem;
+    }
+
+    .control-group {
+        padding: var(--spacing-sm);
     }
 
     .calendar-day {

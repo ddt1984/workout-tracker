@@ -85,23 +85,34 @@ export class EditorView {
                         </button>
                     </div>
                     <div class="exercise-controls">
-                        <div class="control-row">
-                            <div class="control-label">Weight</div>
-                            <button class="control-btn" data-action="dec-weight" data-index="${index}">−</button>
-                            <div class="control-value">${exercise.weight}kg</div>
-                            <button class="control-btn" data-action="inc-weight" data-index="${index}">+</button>
+                        <div class="control-group control-full">
+                            <label class="control-label">WEIGHT</label>
+                            <div class="control-input">
+                                <button class="control-btn" data-action="dec-weight" data-index="${index}">−</button>
+                                <div class="control-value">
+                                    <span class="value-number">${exercise.weight}</span>
+                                    <span class="value-unit">kg</span>
+                                </div>
+                                <button class="control-btn" data-action="inc-weight" data-index="${index}">+</button>
+                            </div>
                         </div>
-                        <div class="control-row">
-                            <div class="control-label">Reps</div>
-                            <button class="control-btn" data-action="dec-reps" data-index="${index}">−</button>
-                            <div class="control-value">${exercise.reps} reps</div>
-                            <button class="control-btn" data-action="inc-reps" data-index="${index}">+</button>
-                        </div>
-                        <div class="control-row">
-                            <div class="control-label">Sets</div>
-                            <button class="control-btn" data-action="dec-sets" data-index="${index}">−</button>
-                            <div class="control-value">${exercise.sets || 0} sets</div>
-                            <button class="control-btn" data-action="inc-sets" data-index="${index}">+</button>
+                        <div class="control-row-grid">
+                            <div class="control-group">
+                                <label class="control-label">REPS</label>
+                                <div class="control-input">
+                                    <button class="control-btn" data-action="dec-reps" data-index="${index}">−</button>
+                                    <div class="control-value">${exercise.reps}</div>
+                                    <button class="control-btn" data-action="inc-reps" data-index="${index}">+</button>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">SETS</label>
+                                <div class="control-input">
+                                    <button class="control-btn" data-action="dec-sets" data-index="${index}">−</button>
+                                    <div class="control-value">${exercise.sets || 0}</div>
+                                    <button class="control-btn" data-action="inc-sets" data-index="${index}">+</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -116,11 +127,16 @@ export class EditorView {
                         </button>
                     </div>
                     <div class="exercise-controls">
-                        <div class="control-row">
-                            <div class="control-label">Floors</div>
-                            <button class="control-btn" data-action="dec-floors" data-index="${index}">−</button>
-                            <div class="control-value">${exercise.floors} floors</div>
-                            <button class="control-btn" data-action="inc-floors" data-index="${index}">+</button>
+                        <div class="control-group control-full">
+                            <label class="control-label">FLOORS</label>
+                            <div class="control-input">
+                                <button class="control-btn" data-action="dec-floors" data-index="${index}">−</button>
+                                <div class="control-value">
+                                    <span class="value-number">${exercise.floors}</span>
+                                    <span class="value-unit">floors</span>
+                                </div>
+                                <button class="control-btn" data-action="inc-floors" data-index="${index}">+</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -135,11 +151,16 @@ export class EditorView {
                         </button>
                     </div>
                     <div class="exercise-controls">
-                        <div class="control-row">
-                            <div class="control-label">Time</div>
-                            <button class="control-btn" data-action="dec-minutes" data-index="${index}">−</button>
-                            <div class="control-value">${exercise.minutes} min</div>
-                            <button class="control-btn" data-action="inc-minutes" data-index="${index}">+</button>
+                        <div class="control-group control-full">
+                            <label class="control-label">TIME</label>
+                            <div class="control-input">
+                                <button class="control-btn" data-action="dec-minutes" data-index="${index}">−</button>
+                                <div class="control-value">
+                                    <span class="value-number">${exercise.minutes}</span>
+                                    <span class="value-unit">min</span>
+                                </div>
+                                <button class="control-btn" data-action="inc-minutes" data-index="${index}">+</button>
+                            </div>
                         </div>
                     </div>
                 </div>
