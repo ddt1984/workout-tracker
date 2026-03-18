@@ -1190,7 +1190,7 @@ body::before {
     }
 
     .calendar-container {
-        padding: var(--spacing-xs) var(--spacing-sm);
+        padding: var(--spacing-lg) var(--spacing-sm) var(--spacing-sm);
     }
 
     .chart-section {
@@ -1267,7 +1267,7 @@ body::before {
     }
 
     .workout-slider-container {
-        padding: var(--spacing-sm);
+        padding: var(--spacing-lg) var(--spacing-sm) var(--spacing-sm);
     }
 
     .workout-card-single {
