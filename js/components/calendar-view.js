@@ -50,31 +50,23 @@ export class CalendarView {
                 </div>
 
                 <div class="calendar-container">
-                    <!-- Monthly Workout Days Chart -->
-                    <div class="analytics-section">
-                        <h2 class="analytics-title">Monthly Workout Days</h2>
-                        <div id="monthly-chart" class="monthly-chart">
+                    <!-- Monthly Chart -->
+                    <div class="chart-section">
+                        <div class="chart-header">📊 Monthly Workout Days</div>
+                        <div id="monthly-chart" class="chart-content">
                             <!-- Chart will be rendered here -->
                         </div>
                     </div>
 
                     <!-- Calendar -->
-                    <div class="calendar-header">
-                        <button id="prev-month" class="btn-icon">←</button>
-                        <h2 id="current-month"></h2>
-                        <button id="next-month" class="btn-icon">→</button>
-                    </div>
-                    <div class="calendar-grid" id="calendar-grid">
-                        <!-- Calendar will be rendered here -->
-                    </div>
-                    <div class="calendar-legend">
-                        <div class="legend-item">
-                            <div class="legend-dot workout-day"></div>
-                            <span>Workout day</span>
+                    <div class="calendar-section">
+                        <div class="calendar-nav">
+                            <button id="prev-month" class="nav-btn">‹</button>
+                            <h3 id="current-month" class="month-title"></h3>
+                            <button id="next-month" class="nav-btn">›</button>
                         </div>
-                        <div class="legend-item">
-                            <div class="legend-dot today"></div>
-                            <span>Today</span>
+                        <div id="calendar-grid" class="calendar-grid">
+                            <!-- Calendar will be rendered here -->
                         </div>
                     </div>
                 </div>

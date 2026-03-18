@@ -904,50 +904,50 @@ body::before {
     transform: scale(0.95);
 }
 
-/* Calendar View - iOS Style */
+/* Calendar View - Compact Design */
 .calendar-view {
     min-height: 100vh;
     background: var(--bg-primary);
 }
 
 .calendar-container {
-    padding: var(--spacing-sm);
-}
-
-/* Analytics Section */
-.analytics-section {
-    background: var(--card-bg);
-    border-radius: var(--radius-md);
+    max-width: 600px;
+    margin: 0 auto;
     padding: var(--spacing-sm) var(--spacing-md);
-    margin-bottom: var(--spacing-sm);
-    border: 1px solid var(--card-border);
-    box-shadow: var(--shadow-sm);
 }
 
-.analytics-title {
-    font-size: 1rem;
+/* Chart Section - Ultra Compact */
+.chart-section {
+    margin-bottom: var(--spacing-md);
+}
+
+.chart-header {
+    font-size: 0.85rem;
     font-weight: 700;
+    font-family: var(--font-display);
     margin-bottom: var(--spacing-xs);
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: -0.3px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.monthly-chart {
-    width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
+.chart-content {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-sm);
+    box-shadow: var(--shadow-sm);
 }
 
 .chart-bars {
     display: flex;
     align-items: flex-end;
-    gap: var(--spacing-xs);
-    height: 110px;
-    padding: var(--spacing-xs) 0;
+    gap: 3px;
+    height: 80px;
+    padding: 0;
     width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .chart-bar-container {
@@ -970,82 +970,42 @@ body::before {
 .chart-bar {
     width: 100%;
     background: var(--gradient-primary);
-    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
     position: relative;
-    min-height: 30px;
-    transition: all var(--transition-normal);
+    min-height: 20px;
+    transition: all var(--transition-fast);
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding-top: var(--spacing-xs);
-    box-shadow: 0 -4px 16px rgba(102, 126, 234, 0.4);
-    cursor: pointer;
-    animation: growUp 0.8s var(--spring) backwards;
-}
-
-@keyframes growUp {
-    from {
-        transform: scaleY(0);
-        opacity: 0;
-    }
-    to {
-        transform: scaleY(1);
-        opacity: 1;
-    }
-}
-
-.chart-bar::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.8) 50%,
-        rgba(255, 255, 255, 0) 100%);
-    border-radius: var(--radius-md) var(--radius-md) 0 0;
-}
-
-.chart-bar:hover {
-    transform: scaleY(1.05) scaleX(1.1);
-    box-shadow: 0 -8px 24px rgba(102, 126, 234, 0.6), var(--accent-glow);
+    padding-top: 2px;
+    cursor: default;
 }
 
 .chart-bar-container.current .chart-bar {
     background: var(--gradient-success);
-    box-shadow: 0 -4px 16px rgba(0, 212, 170, 0.5);
-    animation: growUp 0.8s var(--spring) backwards, glow 2s infinite;
 }
 
-.chart-bar-container.current .chart-bar:hover {
-    box-shadow: 0 -8px 24px rgba(0, 212, 170, 0.7), var(--success-glow);
-}
-
-.chart-bar:active {
-    transform: scaleY(0.98) scaleX(1.05);
+.chart-bar:hover {
+    opacity: 0.8;
 }
 
 .bar-value {
-    font-size: 0.85rem;
+    font-size: 0.7rem;
     font-weight: 700;
     color: white;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .bar-label {
-    margin-top: var(--spacing-xs);
-    font-size: 0.7rem;
+    margin-top: 3px;
+    font-size: 0.65rem;
     font-weight: 600;
     color: var(--text-tertiary);
     text-align: center;
     white-space: pre-line;
-    line-height: 1.2;
-    height: 2.4em;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    line-height: 1.1;
+    height: auto;
+    min-height: 1.8em;
 }
 
 .chart-bar-container.current .bar-label {
@@ -1075,59 +1035,53 @@ body::before {
         font-size: 1.8rem;
     }
 
-    .analytics-section {
-        padding: var(--spacing-xs) var(--spacing-sm);
-        margin-bottom: var(--spacing-xs);
-    }
-
-    .analytics-title {
-        font-size: 0.9rem;
-        margin-bottom: 2px;
-    }
-
     .calendar-container {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+
+    .chart-section {
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .chart-header {
+        font-size: 0.75rem;
+        margin-bottom: 4px;
+    }
+
+    .chart-content {
         padding: var(--spacing-xs);
     }
 
-    .calendar-grid {
-        padding: var(--spacing-xs);
+    .calendar-section {
+        padding: var(--spacing-sm);
+    }
+
+    .calendar-nav {
         margin-bottom: var(--spacing-xs);
     }
 
-    .calendar-legend {
-        padding: 0;
-        gap: var(--spacing-sm);
-        margin-top: 2px;
+    .nav-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 1.3rem;
     }
 
-    .legend-item {
-        font-size: 0.75rem;
+    .month-title {
+        font-size: 0.9rem;
     }
 
-    .legend-dot {
-        width: 14px;
-        height: 14px;
-    }
-
-    .day-number {
-        font-size: 0.8rem;
-    }
-
-    .weekday {
-        font-size: 0.65rem;
-    }
 
     .chart-bars {
         gap: 2px;
-        height: 100px;
+        height: 70px;
     }
 
     .chart-bar-container {
-        min-width: 18px;
+        min-width: 16px;
     }
 
     .chart-bar {
-        min-height: 18px;
+        min-height: 15px;
     }
 
     .bar-label {
@@ -1172,13 +1126,18 @@ body::before {
         font-size: 1.3rem;
     }
 
-    .calendar-header {
-        padding: var(--spacing-xs) var(--spacing-sm);
-        margin-bottom: var(--spacing-xs);
+    .calendar-day {
+        font-size: 0.75rem;
     }
 
-    .calendar-header h2 {
-        font-size: 1rem;
+    .weekday {
+        font-size: 0.6rem;
+        padding: 2px 0;
+    }
+
+    .workout-indicator {
+        font-size: 0.55rem;
+        padding: 1px 3px;
     }
 
     .btn {
@@ -1229,22 +1188,58 @@ body::before {
     }
 }
 
-.calendar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--spacing-sm);
-    padding: var(--spacing-sm) var(--spacing-md);
-    background: transparent;
-    border-radius: 0;
-    border: none;
-    box-shadow: none;
+/* Calendar Section - Super Compact */
+.calendar-section {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    box-shadow: var(--shadow-sm);
 }
 
-.calendar-header h2 {
-    font-size: 1.1rem;
+.calendar-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-sm);
+    gap: var(--spacing-sm);
+}
+
+.nav-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.nav-btn:hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    transform: scale(1.1);
+}
+
+.nav-btn:active {
+    transform: scale(0.95);
+}
+
+.month-title {
+    font-size: 1rem;
     font-weight: 700;
-    letter-spacing: -0.5px;
+    font-family: var(--font-display);
+    text-align: center;
+    letter-spacing: -0.3px;
+    flex: 1;
     background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -1252,137 +1247,97 @@ body::before {
 }
 
 .calendar-grid {
-    background: var(--bg-secondary);
-    border-radius: var(--radius-md);
-    padding: var(--spacing-sm);
-    margin-bottom: var(--spacing-sm);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-sm);
+    /* No wrapper background - direct grid */
 }
 
 .calendar-weekdays {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
-    margin-bottom: var(--spacing-xs);
+    gap: 3px;
+    margin-bottom: 3px;
 }
 
 .weekday {
     text-align: center;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 600;
     color: var(--text-tertiary);
-    padding: 2px;
+    padding: 4px 0;
     text-transform: uppercase;
-    letter-spacing: 0.2px;
+    letter-spacing: 0.3px;
 }
 
 .calendar-days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
+    gap: 3px;
 }
 
 .calendar-day {
     aspect-ratio: 1;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     background: var(--bg-tertiary);
     border-radius: var(--radius-sm);
     position: relative;
-    transition: all var(--transition-normal);
+    transition: all var(--transition-fast);
     border: 1px solid transparent;
-    cursor: pointer;
-}
-
-.calendar-day:hover {
-    background: var(--card-bg);
-    border-color: var(--border);
-    transform: scale(1.05);
+    cursor: default;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
 }
 
 .calendar-day.empty {
     background: transparent;
-    cursor: default;
-}
-
-.calendar-day.empty:hover {
-    transform: none;
+    visibility: hidden;
 }
 
 .calendar-day.today {
-    background: var(--accent-light);
-    border: 2px solid var(--accent);
-    box-shadow: 0 0 0 1px var(--accent);
+    background: var(--bg-primary);
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 700;
+    box-shadow: 0 0 0 2px var(--accent-light);
 }
 
 .calendar-day.workout-day {
     background: var(--gradient-success);
     color: white;
     cursor: pointer;
-    box-shadow: var(--shadow-md), var(--success-glow);
     font-weight: 700;
-}
-
-.calendar-day.workout-day:hover {
-    transform: scale(1.1) rotate(3deg);
-    box-shadow: var(--shadow-lg), var(--success-glow);
-}
-
-.calendar-day.workout-day:active {
-    transform: scale(0.95);
     box-shadow: var(--shadow-sm);
 }
 
+.calendar-day.workout-day:hover {
+    transform: scale(1.08);
+    box-shadow: var(--shadow-md), var(--success-glow);
+}
+
+.calendar-day.workout-day:active {
+    transform: scale(1);
+}
+
 .day-number {
-    font-size: 0.9rem;
-    font-weight: 700;
+    position: relative;
+    z-index: 1;
 }
 
 .workout-indicator {
     position: absolute;
-    top: 4px;
-    right: 4px;
-    font-size: 0.7rem;
+    top: 2px;
+    right: 2px;
+    font-size: 0.6rem;
     background: rgba(255, 255, 255, 0.3);
-    padding: 2px 5px;
-    border-radius: 4px;
+    color: white;
+    padding: 1px 4px;
+    border-radius: 3px;
     font-weight: 700;
+    line-height: 1;
 }
 
-.calendar-legend {
-    display: flex;
-    justify-content: center;
-    gap: var(--spacing-lg);
-    padding: 0;
-    margin-top: var(--spacing-sm);
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-xs);
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    font-weight: 600;
-}
-
-.legend-dot {
-    width: 18px;
-    height: 18px;
-    border-radius: var(--radius-sm);
-}
-
-.legend-dot.workout-day {
-    background: var(--success);
-}
-
-.legend-dot.today {
-    background: var(--accent-light);
-    border: 2px solid var(--accent);
-}
+/* Legend removed - calendar is self-explanatory */
 
 /* Messages - Energetic Alerts */
 .message {
