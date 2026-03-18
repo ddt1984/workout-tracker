@@ -26,6 +26,9 @@ export class HistoryView {
     }
 
     async render() {
+        this.currentIndex = 0;
+        this.workouts = [];
+
         this.container.innerHTML = `
             <div class="history-view">
                 <div class="header">
@@ -49,17 +52,14 @@ export class HistoryView {
                     </button>
                 </div>
 
-                <div class="quick-actions">
-                    <button id="new-workout-btn" class="btn btn-primary">
+                <div class="workout-slider-container">
+                    <button id="new-workout-btn" class="btn btn-large btn-primary">
                         ➕ New Workout
                     </button>
-                    <button id="copy-latest-btn" class="btn btn-secondary">
-                        📋 Copy Latest
-                    </button>
-                </div>
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <p>Loading workouts...</p>
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading workouts...</p>
+                    </div>
                 </div>
             </div>
         `;
@@ -122,80 +122,166 @@ export class HistoryView {
     }
 
     renderWorkoutList(workouts) {
+        this.workouts = workouts;
+        this.currentIndex = 0;
+
         if (workouts.length === 0) {
-            this.container.querySelector('.loading').innerHTML = `
-                <p style="text-align: center; color: var(--text-secondary); padding: 2rem;">
-                    No workouts yet<br>
-                    Add your first workout!
-                </p>
+            this.container.querySelector('.workout-slider-container').innerHTML = `
+                <button id="new-workout-btn" class="btn btn-large btn-primary">
+                    ➕ New Workout
+                </button>
+                <div class="empty-state">
+                    <div class="empty-icon">🏋️</div>
+                    <p>No workouts yet</p>
+                    <p class="empty-subtitle">Start tracking your fitness journey!</p>
+                </div>
             `;
+            // Re-setup new workout button
+            this.addEventListener(document.getElementById('new-workout-btn'), 'click', () => {
+                State.update({ editingWorkout: null });
+                State.setView('editor');
+            });
             return;
         }
 
-        // Group by month
-        const grouped = Parser.groupByMonth(workouts);
+        // Render slider
+        this.renderSlider();
+    }
 
-        // Generate HTML
-        let html = '<div class="workout-list">';
+    renderSlider() {
+        const workout = this.workouts[this.currentIndex];
+        const relativeTime = DateUtils.getRelativeTime(workout.date);
+        const exerciseSummary = this.getExerciseSummary(workout.exercises);
 
-        Object.entries(grouped).forEach(([month, monthWorkouts]) => {
-            html += `
-                <div class="month-group">
-                    <div class="month-header">${month} ${new Date().getFullYear()}</div>
-            `;
+        const html = `
+            <button id="new-workout-btn" class="btn btn-large btn-primary">
+                ➕ New Workout
+            </button>
 
-            monthWorkouts.forEach((workout, index) => {
-                const relativeTime = DateUtils.getRelativeTime(workout.date);
-                const exerciseSummary = this.getExerciseSummary(workout.exercises);
-                const workoutIndex = workouts.indexOf(workout);
+            <div class="workout-slider">
+                <button class="slider-nav prev" id="prev-workout" ${this.currentIndex === this.workouts.length - 1 ? 'disabled' : ''}>
+                    ‹
+                </button>
 
-                html += `
-                    <div class="workout-card" data-workout-index="${workoutIndex}">
-                        <div class="workout-header">
-                            <div class="workout-date">
-                                ${workout.displayDate}
-                                <span style="color: var(--text-tertiary); font-size: 0.85rem; margin-left: 0.5rem;">
-                                    ${relativeTime}
-                                </span>
-                            </div>
+                <div class="slider-card">
+                    <div class="workout-card-single">
+                        <div class="workout-date">
+                            ${workout.displayDate}
+                            <span class="workout-time">${relativeTime}</span>
                         </div>
                         <div class="exercise-list">
                             ${exerciseSummary}
                         </div>
                         <div class="workout-actions">
-                            <button class="btn btn-secondary btn-copy" data-workout-index="${workoutIndex}">
+                            <button class="btn btn-secondary" id="copy-workout">
                                 📋 Copy
                             </button>
-                            <button class="btn btn-secondary btn-edit" data-workout-index="${workoutIndex}">
+                            <button class="btn btn-secondary" id="edit-workout">
                                 ✏️ Edit
                             </button>
                         </div>
                     </div>
-                `;
+                </div>
+
+                <button class="slider-nav next" id="next-workout" ${this.currentIndex === 0 ? 'disabled' : ''}>
+                    ›
+                </button>
+            </div>
+
+            <div class="slider-indicator">
+                ${this.currentIndex + 1} / ${this.workouts.length}
+            </div>
+        `;
+
+        this.container.querySelector('.workout-slider-container').innerHTML = html;
+
+        // Setup slider event listeners
+        this.setupSliderListeners();
+    }
+
+    setupSliderListeners() {
+        // Navigation buttons
+        const prevBtn = document.getElementById('prev-workout');
+        const nextBtn = document.getElementById('next-workout');
+
+        if (prevBtn && !prevBtn.disabled) {
+            this.addEventListener(prevBtn, 'click', () => {
+                if (this.currentIndex < this.workouts.length - 1) {
+                    this.currentIndex++;
+                    this.renderSlider();
+                }
             });
+        }
 
-            html += '</div>';
+        if (nextBtn && !nextBtn.disabled) {
+            this.addEventListener(nextBtn, 'click', () => {
+                if (this.currentIndex > 0) {
+                    this.currentIndex--;
+                    this.renderSlider();
+                }
+            });
+        }
+
+        // Copy and Edit buttons
+        const copyBtn = document.getElementById('copy-workout');
+        const editBtn = document.getElementById('edit-workout');
+
+        if (copyBtn) {
+            this.addEventListener(copyBtn, 'click', () => {
+                this.copyWorkout(this.workouts[this.currentIndex]);
+            });
+        }
+
+        if (editBtn) {
+            this.addEventListener(editBtn, 'click', () => {
+                this.editWorkout(this.workouts[this.currentIndex]);
+            });
+        }
+
+        // New workout button
+        const newBtn = document.getElementById('new-workout-btn');
+        if (newBtn) {
+            this.addEventListener(newBtn, 'click', () => {
+                State.update({ editingWorkout: null });
+                State.setView('editor');
+            });
+        }
+
+        // Touch swipe support
+        this.setupTouchSwipe();
+    }
+
+    setupTouchSwipe() {
+        const slider = this.container.querySelector('.slider-card');
+        if (!slider) return;
+
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        const handleSwipe = () => {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0 && this.currentIndex < this.workouts.length - 1) {
+                    // Swipe left - show older
+                    this.currentIndex++;
+                    this.renderSlider();
+                } else if (diff < 0 && this.currentIndex > 0) {
+                    // Swipe right - show newer
+                    this.currentIndex--;
+                    this.renderSlider();
+                }
+            }
+        };
+
+        this.addEventListener(slider, 'touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
         });
 
-        html += '</div>';
-
-        this.container.querySelector('.loading').outerHTML = html;
-
-        // Add event listeners for copy and edit buttons
-        this.container.querySelectorAll('.btn-copy').forEach(btn => {
-            const copyHandler = (e) => {
-                const index = parseInt(e.target.dataset.workoutIndex);
-                this.copyWorkout(workouts[index]);
-            };
-            this.addEventListener(btn, 'click', copyHandler);
-        });
-
-        this.container.querySelectorAll('.btn-edit').forEach(btn => {
-            const editHandler = (e) => {
-                const index = parseInt(e.target.dataset.workoutIndex);
-                this.editWorkout(workouts[index]);
-            };
-            this.addEventListener(btn, 'click', editHandler);
+        this.addEventListener(slider, 'touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
         });
     }
 
@@ -217,24 +303,6 @@ export class HistoryView {
         // Tab navigation
         const calendarTabHandler = () => State.setView('calendar');
         this.addEventListener(document.getElementById('calendar-tab'), 'click', calendarTabHandler);
-
-        // Copy latest workout
-        const copyLatestHandler = () => {
-            const latest = State.getLatestWorkout();
-            if (latest) {
-                this.copyWorkout(latest);
-            } else {
-                this.showMessage('No workouts to copy', 'error');
-            }
-        };
-        this.addEventListener(document.getElementById('copy-latest-btn'), 'click', copyLatestHandler);
-
-        // New workout
-        const newWorkoutHandler = () => {
-            State.update({ editingWorkout: null });
-            State.setView('editor');
-        };
-        this.addEventListener(document.getElementById('new-workout-btn'), 'click', newWorkoutHandler);
 
         // Refresh
         const refreshHandler = () => this.loadWorkouts();
