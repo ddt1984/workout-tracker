@@ -911,23 +911,23 @@ body::before {
 }
 
 .calendar-container {
-    padding: var(--spacing-lg);
+    padding: var(--spacing-md);
 }
 
 /* Analytics Section */
 .analytics-section {
     background: var(--card-bg);
     border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
     border: 1px solid var(--card-border);
     box-shadow: var(--shadow-card);
 }
 
 .analytics-title {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 700;
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
     color: var(--text-primary);
     letter-spacing: -0.5px;
 }
@@ -942,8 +942,8 @@ body::before {
     display: flex;
     align-items: flex-end;
     gap: var(--spacing-xs);
-    height: 200px;
-    padding: var(--spacing-md) 0;
+    height: 140px;
+    padding: var(--spacing-sm) 0;
     width: 100%;
 }
 
@@ -1032,7 +1032,7 @@ body::before {
 }
 
 .bar-label {
-    margin-top: var(--spacing-sm);
+    margin-top: var(--spacing-xs);
     font-size: 0.7rem;
     font-weight: 600;
     color: var(--text-tertiary);
@@ -1073,45 +1073,46 @@ body::before {
     }
 
     .analytics-section {
-        padding: var(--spacing-md);
-        margin-bottom: var(--spacing-md);
-    }
-
-    .analytics-title {
-        font-size: 1.1rem;
+        padding: var(--spacing-sm);
         margin-bottom: var(--spacing-sm);
     }
 
+    .analytics-title {
+        font-size: 1rem;
+        margin-bottom: var(--spacing-xs);
+    }
+
     .calendar-container {
-        padding: var(--spacing-md);
+        padding: var(--spacing-sm);
     }
 
     .calendar-grid {
-        padding: var(--spacing-md);
-        margin-bottom: var(--spacing-md);
+        padding: var(--spacing-sm);
+        margin-bottom: var(--spacing-sm);
     }
 
     .calendar-legend {
-        padding: var(--spacing-sm);
+        padding: 0;
         gap: var(--spacing-md);
+        margin-top: var(--spacing-xs);
     }
 
     .chart-bars {
         gap: 2px;
-        height: 160px;
+        height: 120px;
     }
 
     .chart-bar-container {
-        min-width: 22px;
+        min-width: 20px;
     }
 
     .chart-bar {
-        min-height: 24px;
+        min-height: 20px;
     }
 
     .bar-label {
         font-size: 0.6rem;
-        margin-top: 4px;
+        margin-top: 2px;
         height: 2em;
     }
 
@@ -1153,11 +1154,11 @@ body::before {
 
     .calendar-header {
         padding: var(--spacing-sm);
-        margin-bottom: var(--spacing-md);
+        margin-bottom: var(--spacing-sm);
     }
 
     .calendar-header h2 {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 
     .btn {
@@ -1212,7 +1213,7 @@ body::before {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
     padding: var(--spacing-md);
     background: var(--bg-secondary);
     border-radius: var(--radius-lg);
@@ -1221,7 +1222,7 @@ body::before {
 }
 
 .calendar-header h2 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 700;
     letter-spacing: -0.5px;
 }
@@ -1229,8 +1230,8 @@ body::before {
 .calendar-grid {
     background: var(--bg-secondary);
     border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
     border: 1px solid var(--border);
     box-shadow: var(--shadow-card);
 }
@@ -1239,15 +1240,15 @@ body::before {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: var(--spacing-xs);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
 }
 
 .weekday {
     text-align: center;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 700;
     color: var(--text-tertiary);
-    padding: var(--spacing-sm);
+    padding: var(--spacing-xs);
     text-transform: uppercase;
     letter-spacing: 0.3px;
 }
@@ -1332,21 +1333,22 @@ body::before {
     display: flex;
     justify-content: center;
     gap: var(--spacing-lg);
-    padding: var(--spacing-sm);
+    padding: 0;
+    margin-top: var(--spacing-sm);
 }
 
 .legend-item {
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm);
-    font-size: 0.95rem;
+    gap: var(--spacing-xs);
+    font-size: 0.85rem;
     color: var(--text-secondary);
     font-weight: 600;
 }
 
 .legend-dot {
-    width: 24px;
-    height: 24px;
+    width: 18px;
+    height: 18px;
     border-radius: var(--radius-sm);
 }
 
