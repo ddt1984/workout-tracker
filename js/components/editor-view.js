@@ -214,65 +214,67 @@ export class EditorView {
 
             case 'inc-weight':
                 exercise.weight += 5;
-                this.updateExerciseValue(index, 'weight', `${exercise.weight}kg`);
+                this.updateExerciseValue(index, 'weight', exercise.weight);
                 break;
             case 'dec-weight':
                 exercise.weight = Math.max(0, exercise.weight - 5);
-                this.updateExerciseValue(index, 'weight', `${exercise.weight}kg`);
+                this.updateExerciseValue(index, 'weight', exercise.weight);
                 break;
 
             case 'inc-reps':
                 exercise.reps += 1;
-                this.updateExerciseValue(index, 'reps', `${exercise.reps} reps`);
+                this.updateExerciseValue(index, 'reps', exercise.reps);
                 break;
             case 'dec-reps':
                 exercise.reps = Math.max(1, exercise.reps - 1);
-                this.updateExerciseValue(index, 'reps', `${exercise.reps} reps`);
+                this.updateExerciseValue(index, 'reps', exercise.reps);
                 break;
 
             case 'inc-sets':
                 exercise.sets = (exercise.sets || 0) + 1;
-                this.updateExerciseValue(index, 'sets', `${exercise.sets} sets`);
+                this.updateExerciseValue(index, 'sets', exercise.sets);
                 break;
             case 'dec-sets':
                 exercise.sets = Math.max(0, (exercise.sets || 0) - 1);
-                this.updateExerciseValue(index, 'sets', `${exercise.sets} sets`);
+                this.updateExerciseValue(index, 'sets', exercise.sets);
                 break;
 
             case 'inc-floors':
                 exercise.floors += 5;
-                this.updateExerciseValue(index, 'floors', `${exercise.floors} floors`);
+                this.updateExerciseValue(index, 'floors', exercise.floors);
                 break;
             case 'dec-floors':
                 exercise.floors = Math.max(0, exercise.floors - 5);
-                this.updateExerciseValue(index, 'floors', `${exercise.floors} floors`);
+                this.updateExerciseValue(index, 'floors', exercise.floors);
                 break;
 
             case 'inc-minutes':
-                exercise.minutes += 5;
-                this.updateExerciseValue(index, 'minutes', `${exercise.minutes} min`);
+                exercise.minutes += 1;
+                this.updateExerciseValue(index, 'minutes', exercise.minutes);
                 break;
             case 'dec-minutes':
-                exercise.minutes = Math.max(0, exercise.minutes - 5);
-                this.updateExerciseValue(index, 'minutes', `${exercise.minutes} min`);
+                exercise.minutes = Math.max(0, exercise.minutes - 1);
+                this.updateExerciseValue(index, 'minutes', exercise.minutes);
                 break;
         }
     }
 
-    updateExerciseValue(index, field, displayValue) {
+    updateExerciseValue(index, field, value) {
         // Find the specific control value element and update it
-        const card = document.querySelector(`[data-index="${index}"]`);
+        const card = document.querySelector(`.exercise-card[data-index="${index}"]`);
         if (card) {
-            const controls = card.querySelectorAll('.control-row');
-            controls.forEach(row => {
-                const btn = row.querySelector(`[data-action*="${field}"]`);
-                if (btn) {
-                    const valueEl = row.querySelector('.control-value');
-                    if (valueEl) {
-                        valueEl.textContent = displayValue;
+            // Find the button with the action that contains this field
+            const btn = card.querySelector(`[data-action*="${field}"]`);
+            if (btn) {
+                // Find the closest control-input, then the value-number inside
+                const controlInput = btn.closest('.control-input');
+                if (controlInput) {
+                    const valueNumber = controlInput.querySelector('.value-number');
+                    if (valueNumber) {
+                        valueNumber.textContent = value;
                     }
                 }
-            });
+            }
         }
     }
 
