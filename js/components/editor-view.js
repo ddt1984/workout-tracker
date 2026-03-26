@@ -101,7 +101,9 @@ export class EditorView {
                                 <label class="control-label">REPS</label>
                                 <div class="control-input">
                                     <button class="control-btn" data-action="dec-reps" data-index="${index}">−</button>
-                                    <div class="control-value">${exercise.reps}</div>
+                                    <div class="control-value">
+                                        <span class="value-number">${exercise.reps}</span>
+                                    </div>
                                     <button class="control-btn" data-action="inc-reps" data-index="${index}">+</button>
                                 </div>
                             </div>
@@ -109,7 +111,9 @@ export class EditorView {
                                 <label class="control-label">SETS</label>
                                 <div class="control-input">
                                     <button class="control-btn" data-action="dec-sets" data-index="${index}">−</button>
-                                    <div class="control-value">${exercise.sets || 0}</div>
+                                    <div class="control-value">
+                                        <span class="value-number">${exercise.sets || 0}</span>
+                                    </div>
                                     <button class="control-btn" data-action="inc-sets" data-index="${index}">+</button>
                                 </div>
                             </div>
