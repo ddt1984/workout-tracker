@@ -222,10 +222,17 @@ export const Parser = {
 
     // Create new workout from form data
     createWorkout(date, exercises) {
-        // Convert ISO date to Korean format
-        const d = new Date(date);
-        const month = d.getMonth() + 1;
-        const day = d.getDate();
+        // Convert ISO date to Korean format (parse as local date)
+        let month, day;
+        if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+            const [year, m, d] = date.split('-').map(Number);
+            month = m;
+            day = d;
+        } else {
+            const dateObj = new Date(date);
+            month = dateObj.getMonth() + 1;
+            day = dateObj.getDate();
+        }
         const displayDate = `${month}월 ${day}일`;
 
         return {

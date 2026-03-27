@@ -3,6 +3,11 @@
 export const DateUtils = {
     // Convert Date object to Korean display format "M월 D일"
     toKoreanDate(date) {
+        // If date is ISO string (YYYY-MM-DD), parse it as local date
+        if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+            const [year, month, day] = date.split('-').map(Number);
+            return `${month}월 ${day}일`;
+        }
         const d = new Date(date);
         const month = d.getMonth() + 1;
         const day = d.getDate();
@@ -56,8 +61,19 @@ export const DateUtils = {
 
     // Get relative time string (e.g., "오늘", "어제", "3일 전")
     getRelativeTime(date) {
-        const d = new Date(date);
+        // Parse ISO date as local date to avoid timezone issues
+        let d;
+        if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+            const [year, month, day] = date.split('-').map(Number);
+            d = new Date(year, month - 1, day);
+        } else {
+            d = new Date(date);
+        }
+
         const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        d.setHours(0, 0, 0, 0);
+
         const diffTime = today - d;
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
@@ -65,6 +81,6 @@ export const DateUtils = {
         if (diffDays === 1) return '어제';
         if (diffDays < 7) return `${diffDays}일 전`;
         if (diffDays < 30) return `${Math.floor(diffDays / 7)}주 전`;
-        return this.toKoreanDate(d);
+        return this.toKoreanDate(date);
     }
 };
